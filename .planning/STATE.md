@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 4 of 5 (Observability & Manual Sync)
-Plan: 1 of TBD in current phase
+Plan: 2 of TBD in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 04-01-PLAN.md
+Last activity: 2026-01-25 — Completed 04-02-PLAN.md
 
-Progress: [███████░░░] 65%
+Progress: [████████░░] 72%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 5.0 min
-- Total execution time: 1.0 hours
+- Total plans completed: 13
+- Average duration: 4.9 min
+- Total execution time: 1.1 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [███████░░░] 65%
 | 01-storage-foundation | 3 | 21.2min | 7.1min |
 | 02-document-processing | 5 | 20.2min | 4.0min |
 | 03-mcp-server-core | 3 | 17.6min | 5.9min |
-| 04-observability-manual-sync | 1 | 3.0min | 3.0min |
+| 04-observability-manual-sync | 2 | 7.5min | 3.8min |
 
 **Recent Trend:**
-- Last 5 plans: 02-05 (2.8min), 03-01 (5.6min), 03-02 (8min), 03-03 (4min), 04-01 (3min)
-- Trend: Fast execution continues. Phase 4 started with observability tooling.
+- Last 5 plans: 03-01 (5.6min), 03-02 (8min), 03-03 (4min), 04-01 (3min), 04-02 (4.5min)
+- Trend: Consistent fast execution. Phase 4 progressing well with CLI tooling.
 
 *Updated after each plan completion*
 
@@ -83,6 +83,9 @@ Recent decisions affecting current work:
 - GitHub API failures return nil for commits_behind (graceful degradation) — Plan 04-01
 - Stale warning threshold set at >20 commits behind HEAD — Plan 04-01
 - Qdrant errors prefixed with "qdrant_error:" for caller disambiguation — Plan 04-01
+- Use Cobra for CLI framework (standard in Go ecosystem) — Plan 04-02
+- Reuse OpenAI client from embeddings for metadata generation (no duplicate clients) — Plan 04-02
+- Clear collection before indexing (full refresh model, not incremental) — Plan 04-02
 
 ### Pending Todos
 
@@ -100,8 +103,8 @@ None blocking current work. All flagged for consideration during planning.
 
 ## Session Continuity
 
-Last session: 2026-01-25 21:56
-Stopped at: Completed 04-01-PLAN.md (Implement get_index_status Tool)
+Last session: 2026-01-25 22:03
+Stopped at: Completed 04-02-PLAN.md (CLI Sync Command)
 Resume file: None
 
 ---
