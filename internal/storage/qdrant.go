@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"fmt"
+	"sort"
 	"time"
 
 	"github.com/cenkalti/backoff/v4"
@@ -470,4 +471,121 @@ func (s *QdrantStorage) GetCommitSHA(ctx context.Context, repository string) (st
 
 	commitSHA := results[0].Payload["commit_sha"].GetStringValue()
 	return commitSHA, nil
+}
+
+// ListDocumentPaths returns all unique document paths in the index.
+// Uses Scroll API to iterate through all parent documents.
+func (s *QdrantStorage) ListDocumentPaths(ctx context.Context, repository string) ([]string, error) {
+	var paths []string
+	var offset *qdrant.PointId
+
+	// Build filter for parent documents
+	must := []*qdrant.Condition{
+		qdrant.NewMatch("type", "parent"),
+	}
+	if repository != "" {
+		must = append(must, qdrant.NewMatch("repository", repository))
+	}
+
+	filter := &qdrant.Filter{
+		Must: must,
+	}
+
+	batchSize := uint32(100)
+
+	// Scroll through all parent documents
+	for {
+		results, err := s.client.Scroll(ctx, &qdrant.ScrollPoints{
+			CollectionName: CollectionName,
+			Filter:         filter,
+			Limit:          qdrant.PtrOf(batchSize),
+			Offset:         offset,
+			WithPayload:    qdrant.NewWithPayloadInclude("path"), // Only need path field
+		})
+		if err != nil {
+			return nil, fmt.Errorf("failed to scroll documents: %w", err)
+		}
+
+		for _, result := range results {
+			if path := result.Payload["path"].GetStringValue(); path != "" {
+				paths = append(paths, path)
+			}
+		}
+
+		// Stop if we got fewer results than batch size (no more pages)
+		if uint32(len(results)) < batchSize {
+			break
+		}
+
+		// Get offset for next page (last point ID)
+		offset = results[len(results)-1].Id
+	}
+
+	// Sort paths alphabetically for consistent ordering
+	sort.Strings(paths)
+	return paths, nil
+}
+
+// GetDocumentByPath retrieves a parent document by its path.
+// Returns ErrDocumentNotFound if no document exists with the given path.
+func (s *QdrantStorage) GetDocumentByPath(ctx context.Context, path string, repository string) (*Document, error) {
+	// Build filter for parent document with matching path
+	must := []*qdrant.Condition{
+		qdrant.NewMatch("type", "parent"),
+		qdrant.NewMatch("path", path),
+	}
+	if repository != "" {
+		must = append(must, qdrant.NewMatch("repository", repository))
+	}
+
+	filter := &qdrant.Filter{
+		Must: must,
+	}
+
+	results, err := s.client.Scroll(ctx, &qdrant.ScrollPoints{
+		CollectionName: CollectionName,
+		Filter:         filter,
+		Limit:          qdrant.PtrOf(uint32(1)),
+		WithPayload:    qdrant.NewWithPayload(true),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to query document by path: %w", err)
+	}
+
+	if len(results) == 0 {
+		return nil, ErrDocumentNotFound
+	}
+
+	point := results[0]
+	payload := point.Payload
+
+	// Parse indexed_at timestamp
+	indexedAt, err := time.Parse(time.RFC3339, payload["indexed_at"].GetStringValue())
+	if err != nil {
+		indexedAt = time.Time{} // Use zero time if parse fails
+	}
+
+	// Extract entities
+	var entities []string
+	if entitiesVal, ok := payload["entities"]; ok && entitiesVal.GetListValue() != nil {
+		for _, val := range entitiesVal.GetListValue().Values {
+			entities = append(entities, val.GetStringValue())
+		}
+	}
+
+	doc := &Document{
+		ID:      point.Id.GetUuid(),
+		Content: payload["content"].GetStringValue(),
+		Metadata: DocumentMetadata{
+			Path:       payload["path"].GetStringValue(),
+			URL:        payload["url"].GetStringValue(),
+			Repository: payload["repository"].GetStringValue(),
+			CommitSHA:  payload["commit_sha"].GetStringValue(),
+			IndexedAt:  indexedAt,
+			Summary:    payload["summary"].GetStringValue(),
+			Entities:   entities,
+		},
+	}
+
+	return doc, nil
 }

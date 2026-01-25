@@ -314,3 +314,165 @@ func TestBatchChunkUpsert(t *testing.T) {
 	require.NoError(t, err)
 	assert.GreaterOrEqual(t, len(results), 250, "Expected at least 250 chunks in search results")
 }
+
+func TestSearchChunksWithScores(t *testing.T) {
+	storage := setupTestStorage(t)
+	defer storage.Close()
+
+	ctx := context.Background()
+
+	// Use unique repository to avoid conflicts with other tests
+	repo := "test/scored-search-" + uuid.New().String()
+
+	// Create and upsert parent document
+	docID := uuid.New().String()
+	doc := &Document{
+		ID:      docID,
+		Content: "# Scored Search Test\n\nContent for testing scores.",
+		Metadata: DocumentMetadata{
+			Path:       "test/scored.md",
+			Repository: repo,
+			CommitSHA:  "scored123",
+			IndexedAt:  time.Now().UTC(),
+		},
+	}
+	err := storage.UpsertDocument(ctx, doc)
+	require.NoError(t, err)
+
+	// Create chunk with embedding
+	chunkID := uuid.New().String()
+	embedding := make([]float32, VectorDimension)
+	for i := range embedding {
+		embedding[i] = 0.1
+	}
+
+	chunk := &Chunk{
+		ID:          chunkID,
+		ParentDocID: docID,
+		ChunkIndex:  0,
+		HeaderPath:  "Scored Search Test",
+		Content:     "Scored search content",
+		Path:        "test/scored.md",
+		Repository:  repo,
+		Embedding:   embedding,
+	}
+
+	err = storage.UpsertChunks(ctx, []*Chunk{chunk})
+	require.NoError(t, err, "Failed to upsert chunk")
+
+	// Search with same embedding - should get high score
+	results, err := storage.SearchChunksWithScores(ctx, embedding, 10, repo)
+	require.NoError(t, err, "Failed to search chunks with scores")
+
+	// Assert chunk is found with a score
+	require.Len(t, results, 1, "Expected 1 search result")
+
+	result := results[0]
+	assert.Equal(t, chunk.Content, result.Content)
+	assert.Greater(t, result.Score, 0.0, "Score should be greater than 0")
+	assert.LessOrEqual(t, result.Score, 1.0, "Score should be at most 1.0")
+}
+
+func TestListDocumentPaths(t *testing.T) {
+	storage := setupTestStorage(t)
+	defer storage.Close()
+
+	ctx := context.Background()
+
+	// Use unique repository to avoid conflicts with other tests
+	repo := "test/list-paths-" + uuid.New().String()
+
+	// Create multiple documents with different paths
+	paths := []string{"docs/a.md", "docs/b.md", "docs/c.md"}
+
+	for _, path := range paths {
+		doc := &Document{
+			ID:      uuid.New().String(),
+			Content: "# Document at " + path,
+			Metadata: DocumentMetadata{
+				Path:       path,
+				Repository: repo,
+				CommitSHA:  "list123",
+				IndexedAt:  time.Now().UTC(),
+			},
+		}
+		err := storage.UpsertDocument(ctx, doc)
+		require.NoError(t, err, "Failed to upsert document at %s", path)
+	}
+
+	// Wait for Qdrant to index documents (eventual consistency)
+	time.Sleep(100 * time.Millisecond)
+
+	// List document paths
+	result, err := storage.ListDocumentPaths(ctx, repo)
+	require.NoError(t, err, "Failed to list document paths")
+
+	// Assert all paths are returned (sorted)
+	assert.Len(t, result, 3, "Expected 3 document paths")
+	assert.Equal(t, paths, result, "Paths should be returned in sorted order")
+}
+
+func TestListDocumentPaths_EmptyRepository(t *testing.T) {
+	storage := setupTestStorage(t)
+	defer storage.Close()
+
+	ctx := context.Background()
+
+	// Use non-existent repository
+	result, err := storage.ListDocumentPaths(ctx, "nonexistent/repo-"+uuid.New().String())
+	require.NoError(t, err)
+	assert.Empty(t, result, "Expected empty list for non-existent repository")
+}
+
+func TestGetDocumentByPath(t *testing.T) {
+	storage := setupTestStorage(t)
+	defer storage.Close()
+
+	ctx := context.Background()
+
+	// Use unique repository to avoid conflicts
+	repo := "test/by-path-" + uuid.New().String()
+	path := "test/by-path.md"
+
+	// Create document
+	doc := &Document{
+		ID:      uuid.New().String(),
+		Content: "# Get By Path Test\n\nThis is test content.",
+		Metadata: DocumentMetadata{
+			Path:       path,
+			URL:        "https://example.com/test/by-path.md",
+			Repository: repo,
+			CommitSHA:  "bypath123",
+			IndexedAt:  time.Now().UTC().Truncate(time.Second),
+			Summary:    "Test summary for by-path document",
+			Entities:   []string{"TestEntity"},
+		},
+	}
+	err := storage.UpsertDocument(ctx, doc)
+	require.NoError(t, err, "Failed to upsert document")
+
+	// Get document by path
+	result, err := storage.GetDocumentByPath(ctx, path, repo)
+	require.NoError(t, err, "Failed to get document by path")
+
+	// Assert document matches
+	assert.Equal(t, doc.ID, result.ID)
+	assert.Equal(t, doc.Content, result.Content)
+	assert.Equal(t, doc.Metadata.Path, result.Metadata.Path)
+	assert.Equal(t, doc.Metadata.URL, result.Metadata.URL)
+	assert.Equal(t, doc.Metadata.Repository, result.Metadata.Repository)
+	assert.Equal(t, doc.Metadata.CommitSHA, result.Metadata.CommitSHA)
+	assert.Equal(t, doc.Metadata.Summary, result.Metadata.Summary)
+	assert.ElementsMatch(t, doc.Metadata.Entities, result.Metadata.Entities)
+}
+
+func TestGetDocumentByPath_NotFound(t *testing.T) {
+	storage := setupTestStorage(t)
+	defer storage.Close()
+
+	ctx := context.Background()
+
+	// Try to get non-existent document by path
+	_, err := storage.GetDocumentByPath(ctx, "nonexistent/path.md", "nonexistent/repo")
+	assert.ErrorIs(t, err, ErrDocumentNotFound, "Expected ErrDocumentNotFound for invalid path")
+}
