@@ -9,6 +9,10 @@ local.env
 
 # Go build artifacts
 /bin/
+/mcp-server
+/sync
+cmd/mcp-server/mcp-server
+cmd/sync/sync
 *.exe
 *.dll
 *.so
