@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Core value:** AI agents can retrieve relevant EINO documentation on demand — no manual doc hunting or copy-pasting required.
-**Current focus:** Phase 3 - MCP Server Core
+**Current focus:** Phase 4 - Observability & Manual Sync
 
 ## Current Position
 
-Phase: 3 of 5 (MCP Server Core)
-Plan: 3 of 3 in current phase (Phase complete!)
-Status: Phase complete
-Last activity: 2026-01-25 — Completed 03-03-PLAN.md (Tool Handlers Integration)
+Phase: 4 of 5 (Observability & Manual Sync)
+Plan: 0 of TBD in current phase
+Status: Ready to plan
+Last activity: 2026-01-25 — Completed Phase 3 (MCP Server Core)
 
-Progress: [███████░░░] 68%
+Progress: [██████░░░░] 60%
 
 ## Performance Metrics
 
@@ -77,6 +77,7 @@ Recent decisions affecting current work:
 - Search deduplication: keep highest-scoring chunk per parent document — Plan 03-03
 - Request 3x limit for search to ensure enough unique docs after dedup — Plan 03-03
 - Source header prepended to fetched content for attribution — Plan 03-03
+- Two-tool workflow: search_docs returns metadata, fetch_doc retrieves content (scalable design) — Phase 3 verification
 
 ### Pending Todos
 
@@ -95,7 +96,7 @@ None blocking current work. All flagged for consideration during planning.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 03-03-PLAN.md (Tool Handlers Integration) - Phase 3 complete!
+Stopped at: Completed Phase 3 (MCP Server Core) - all 3 plans executed, goal verified
 Resume file: None
 
 ---

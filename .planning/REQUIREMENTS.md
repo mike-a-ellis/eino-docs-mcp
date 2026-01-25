@@ -9,11 +9,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### MCP Server
 
-- [ ] **MCP-01**: MCP server implemented in Go using official MCP Go SDK
-- [ ] **MCP-02**: Server exposes `search_docs` tool for semantic search
-- [ ] **MCP-03**: Server exposes `fetch_doc` tool to get specific document by path
-- [ ] **MCP-04**: Server exposes `list_docs` tool to browse documentation structure
-- [ ] **MCP-05**: `search_docs` returns 5-10 full markdown files per query (not snippets)
+- [x] **MCP-01**: MCP server implemented in Go using official MCP Go SDK
+- [x] **MCP-02**: Server exposes `search_docs` tool for semantic search (returns metadata with relevance scores)
+- [x] **MCP-03**: Server exposes `fetch_doc` tool to get specific document by path (returns full markdown)
+- [x] **MCP-04**: Server exposes `list_docs` tool to browse documentation structure
+- [x] **MCP-05**: Two-tool workflow enables full document retrieval: search_docs finds relevant docs, fetch_doc retrieves full content
 - [ ] **MCP-06**: Server exposes `get_index_status` tool returning indexed URLs, timestamps, stats, and source commit SHA
 
 ### Document Processing
@@ -79,11 +79,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MCP-01 | Phase 3 | Pending |
-| MCP-02 | Phase 3 | Pending |
-| MCP-03 | Phase 3 | Pending |
-| MCP-04 | Phase 3 | Pending |
-| MCP-05 | Phase 3 | Pending |
+| MCP-01 | Phase 3 | Complete |
+| MCP-02 | Phase 3 | Complete |
+| MCP-03 | Phase 3 | Complete |
+| MCP-04 | Phase 3 | Complete |
+| MCP-05 | Phase 3 | Complete |
 | MCP-06 | Phase 4 | Pending |
 | PROC-01 | Phase 2 | Complete |
 | PROC-02 | Phase 2 | Complete |
