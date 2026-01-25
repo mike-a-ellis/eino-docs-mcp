@@ -598,12 +598,17 @@ type CollectionInfo struct {
 // GetCollectionInfo retrieves collection statistics including total points count.
 // Used for calculating total chunks in the index.
 func (s *QdrantStorage) GetCollectionInfo(ctx context.Context) (*CollectionInfo, error) {
-	collection, err := s.client.GetCollection(ctx, CollectionName)
+	collection, err := s.client.GetCollectionInfo(ctx, CollectionName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get collection: %w", err)
 	}
 
+	pointsCount := uint64(0)
+	if collection.PointsCount != nil {
+		pointsCount = *collection.PointsCount
+	}
+
 	return &CollectionInfo{
-		PointsCount: collection.PointsCount,
+		PointsCount: pointsCount,
 	}, nil
 }
