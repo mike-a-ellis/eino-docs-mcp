@@ -66,10 +66,12 @@ Plans:
   3. AI agent can use fetch_doc tool to retrieve a specific document by path
   4. AI agent can browse available documentation structure using list_docs tool
   5. Returned documents are complete markdown files, not snippets or chunks
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 03-01-PLAN.md — MCP server foundation with SDK integration and tool registration
+- [ ] 03-02-PLAN.md — Storage layer enhancements (scores, path listing, path lookup)
+- [ ] 03-03-PLAN.md — Tool handler implementation with full integration
 
 ### Phase 4: Observability & Manual Sync
 **Goal**: Users can inspect index status and trigger manual re-indexing
@@ -107,7 +109,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Storage Foundation | 3/3 | Complete ✓ | 2026-01-25 |
 | 2. Document Processing | 5/5 | Complete ✓ | 2026-01-25 |
-| 3. MCP Server Core | 0/TBD | Not started | - |
+| 3. MCP Server Core | 0/3 | Not started | - |
 | 4. Observability & Manual Sync | 0/TBD | Not started | - |
 | 5. Deployment | 0/TBD | Not started | - |
 
