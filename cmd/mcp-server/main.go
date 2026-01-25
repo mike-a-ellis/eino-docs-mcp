@@ -9,6 +9,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/joho/godotenv"
+
 	"github.com/bull/eino-mcp-server/internal/embedding"
 	ghclient "github.com/bull/eino-mcp-server/internal/github"
 	mcpserver "github.com/bull/eino-mcp-server/internal/mcp"
@@ -16,6 +18,11 @@ import (
 )
 
 func main() {
+	// Load .env file if present (local development), ignore if missing (production)
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, using environment variables")
+	}
+
 	// Create context that cancels on SIGTERM/SIGINT
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 	defer cancel()

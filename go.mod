@@ -9,6 +9,7 @@ require (
 	github.com/gofri/go-github-ratelimit v1.1.1
 	github.com/google/go-github/v81 v81.0.0
 	github.com/google/uuid v1.6.0
+	github.com/joho/godotenv v1.5.1
 	github.com/modelcontextprotocol/go-sdk v1.2.0
 	github.com/openai/openai-go v1.12.0
 	github.com/qdrant/go-client v1.16.2

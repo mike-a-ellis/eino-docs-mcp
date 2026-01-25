@@ -8,6 +8,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 
 	"github.com/bull/eino-mcp-server/internal/embedding"
@@ -49,6 +50,9 @@ func init() {
 }
 
 func main() {
+	// Load .env file if present (local development), ignore if missing (production)
+	_ = godotenv.Load()
+
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
