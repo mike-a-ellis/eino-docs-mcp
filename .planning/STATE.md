@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 4 of 5 (Observability & Manual Sync)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-01-25 — Completed Phase 3 (MCP Server Core)
+Plan: 1 of TBD in current phase
+Status: In progress
+Last activity: 2026-01-25 — Completed 04-01-PLAN.md
 
-Progress: [██████░░░░] 60%
+Progress: [███████░░░] 65%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 5.3 min
-- Total execution time: 0.97 hours
+- Total plans completed: 12
+- Average duration: 5.0 min
+- Total execution time: 1.0 hours
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: [██████░░░░] 60%
 | 01-storage-foundation | 3 | 21.2min | 7.1min |
 | 02-document-processing | 5 | 20.2min | 4.0min |
 | 03-mcp-server-core | 3 | 17.6min | 5.9min |
+| 04-observability-manual-sync | 1 | 3.0min | 3.0min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (3.5min), 02-05 (2.8min), 03-01 (5.6min), 03-02 (8min), 03-03 (4min)
-- Trend: Phase 3 complete! MCP server fully functional.
+- Last 5 plans: 02-05 (2.8min), 03-01 (5.6min), 03-02 (8min), 03-03 (4min), 04-01 (3min)
+- Trend: Fast execution continues. Phase 4 started with observability tooling.
 
 *Updated after each plan completion*
 
@@ -78,6 +79,10 @@ Recent decisions affecting current work:
 - Request 3x limit for search to ensure enough unique docs after dedup — Plan 03-03
 - Source header prepended to fetched content for attribution — Plan 03-03
 - Two-tool workflow: search_docs returns metadata, fetch_doc retrieves content (scalable design) — Phase 3 verification
+- Chunk count calculated as PointsCount - document count (1 parent + N chunks per doc) — Plan 04-01
+- GitHub API failures return nil for commits_behind (graceful degradation) — Plan 04-01
+- Stale warning threshold set at >20 commits behind HEAD — Plan 04-01
+- Qdrant errors prefixed with "qdrant_error:" for caller disambiguation — Plan 04-01
 
 ### Pending Todos
 
@@ -95,8 +100,8 @@ None blocking current work. All flagged for consideration during planning.
 
 ## Session Continuity
 
-Last session: 2026-01-25
-Stopped at: Completed Phase 3 (MCP Server Core) - all 3 plans executed, goal verified
+Last session: 2026-01-25 21:56
+Stopped at: Completed 04-01-PLAN.md (Implement get_index_status Tool)
 Resume file: None
 
 ---
