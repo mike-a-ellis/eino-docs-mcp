@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/bull/eino-mcp-server/internal/embedding"
+	ghclient "github.com/bull/eino-mcp-server/internal/github"
 	"github.com/bull/eino-mcp-server/internal/storage"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
@@ -13,12 +14,14 @@ type Server struct {
 	server   *mcp.Server
 	storage  *storage.QdrantStorage
 	embedder *embedding.Embedder
+	github   *ghclient.Client
 }
 
 // Config holds server dependencies.
 type Config struct {
 	Storage  *storage.QdrantStorage
 	Embedder *embedding.Embedder
+	GitHub   *ghclient.Client
 }
 
 // NewServer creates a configured MCP server with tools registered.
@@ -50,6 +53,7 @@ func NewServer(cfg *Config) *Server {
 		server:   server,
 		storage:  cfg.Storage,
 		embedder: cfg.Embedder,
+		github:   cfg.GitHub,
 	}
 }
 

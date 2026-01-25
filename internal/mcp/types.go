@@ -70,3 +70,24 @@ type ListDocsOutput struct {
 	// Count is the total number of documents.
 	Count int `json:"count"`
 }
+
+// StatusInput defines input for get_index_status tool (no parameters required)
+type StatusInput struct{}
+
+// StatusOutput contains index status information
+type StatusOutput struct {
+	// TotalDocs is the count of indexed documents
+	TotalDocs int `json:"total_docs"`
+	// TotalChunks is the count of document chunks
+	TotalChunks int `json:"total_chunks"`
+	// IndexedPaths lists all document paths in the index
+	IndexedPaths []string `json:"indexed_paths"`
+	// LastSyncTime is when the index was last updated (RFC3339)
+	LastSyncTime string `json:"last_sync_time"`
+	// SourceCommit is the GitHub commit SHA of indexed content
+	SourceCommit string `json:"source_commit"`
+	// CommitsBehind shows how many commits the index is behind GitHub HEAD (null if check failed)
+	CommitsBehind *int `json:"commits_behind"`
+	// StaleWarning is set when index is >20 commits behind
+	StaleWarning string `json:"stale_warning,omitempty"`
+}
