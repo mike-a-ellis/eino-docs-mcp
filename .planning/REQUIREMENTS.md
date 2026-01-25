@@ -90,11 +90,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROC-03 | Phase 2 | Pending |
 | PROC-04 | Phase 2 | Pending |
 | PROC-05 | Phase 2 | Pending |
-| STOR-01 | Phase 1 | Pending |
-| STOR-02 | Phase 1 | Pending |
-| STOR-03 | Phase 1 | Pending |
-| STOR-04 | Phase 1 | Pending |
-| STOR-05 | Phase 1 | Pending |
+| STOR-01 | Phase 1 | Complete |
+| STOR-02 | Phase 1 | Complete |
+| STOR-03 | Phase 1 | Complete |
+| STOR-04 | Phase 1 | Complete |
+| STOR-05 | Phase 1 | Complete |
 | DEPL-01 | Phase 5 | Pending |
 | DEPL-02 | Phase 5 | Pending |
 | DEPL-03 | Phase 5 | Pending |

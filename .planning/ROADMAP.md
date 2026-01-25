@@ -12,7 +12,7 @@ This roadmap delivers an MCP server that provides AI agents with on-demand acces
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Storage Foundation** - Vector database infrastructure with persistent storage
+- [x] **Phase 1: Storage Foundation** - Vector database infrastructure with persistent storage
 - [ ] **Phase 2: Document Processing** - Fetch, chunk, embed, and index EINO documentation
 - [ ] **Phase 3: MCP Server Core** - Implement MCP protocol with search and retrieval tools
 - [ ] **Phase 4: Observability & Manual Sync** - Index status inspection and manual re-indexing
@@ -33,9 +33,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project setup with Go module, Qdrant Docker, and storage data models
-- [ ] 01-02-PLAN.md — Qdrant client wrapper with connection, health checks, and collection management
-- [ ] 01-03-PLAN.md — Document storage operations and persistence integration tests
+- [x] 01-01-PLAN.md — Project setup with Go module, Qdrant Docker, and storage data models
+- [x] 01-02-PLAN.md — Qdrant client wrapper with connection, health checks, and collection management
+- [x] 01-03-PLAN.md — Document storage operations and persistence integration tests
 
 ### Phase 2: Document Processing
 **Goal**: Documentation is fetched, chunked, embedded, and indexed in vector database
@@ -101,7 +101,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Storage Foundation | 0/3 | Planned | - |
+| 1. Storage Foundation | 3/3 | Complete ✓ | 2026-01-25 |
 | 2. Document Processing | 0/TBD | Not started | - |
 | 3. MCP Server Core | 0/TBD | Not started | - |
 | 4. Observability & Manual Sync | 0/TBD | Not started | - |
