@@ -10,28 +10,29 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 2 of 5 (Document Processing)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-01-25 — Completed Phase 1 (Storage Foundation)
+Plan: 1 of TBD in current phase
+Status: In progress
+Last activity: 2026-01-25 — Completed 02-02-PLAN.md (Markdown Chunker)
 
-Progress: [██░░░░░░░░] 20%
+Progress: [██░░░░░░░░] 22%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 7.1 min
-- Total execution time: 0.35 hours
+- Total plans completed: 4
+- Average duration: 6.1 min
+- Total execution time: 0.41 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-storage-foundation | 3 | 21.2min | 7.1min |
+| 02-document-processing | 1 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6.7min), 01-02 (2.5min), 01-03 (12min)
-- Trend: Velocity varies with task complexity
+- Last 5 plans: 01-01 (6.7min), 01-02 (2.5min), 01-03 (12min), 02-02 (3min)
+- Trend: Focused implementation tasks execute quickly
 
 *Updated after each plan completion*
 
@@ -53,6 +54,9 @@ Recent decisions affecting current work:
 - Exponential backoff retry: 500ms initial, 10s max, 30s total — Plan 01-02
 - Payload indexes created at collection setup time (not lazily) — Plan 01-02
 - Use Qdrant named vectors for optional embeddings — Plan 01-03
+- Split only at H1/H2 boundaries (not H3+) for semantic coherence — Plan 02-02
+- No chunk overlap - header hierarchy provides sufficient context — Plan 02-02
+- No size limits on chunks - preserve complete sections — Plan 02-02
 
 ### Pending Todos
 
@@ -71,7 +75,7 @@ None blocking current work. All flagged for consideration during planning.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed Phase 1 (Storage Foundation) - all 3 plans executed, goal verified
+Stopped at: Completed 02-02-PLAN.md (Markdown Chunker)
 Resume file: None
 
 ---
