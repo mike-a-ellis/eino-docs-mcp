@@ -47,10 +47,14 @@ Plans:
   3. OpenAI embeddings are generated for each chunk using text-embedding-3-small
   4. LLM-generated summaries capture the main topic and purpose of each document
   5. Key EINO functions, methods, and classes are extracted from each document during indexing
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 02-01-PLAN.md — GitHub content fetcher with rate limit handling
+- [ ] 02-02-PLAN.md — Markdown chunker with header hierarchy extraction
+- [ ] 02-03-PLAN.md — OpenAI embeddings client with batching and retry
+- [ ] 02-04-PLAN.md — LLM metadata generator for summaries and entities
+- [ ] 02-05-PLAN.md — End-to-end indexing pipeline orchestration
 
 ### Phase 3: MCP Server Core
 **Goal**: AI agents can search and retrieve EINO documentation via MCP protocol
@@ -102,7 +106,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Storage Foundation | 3/3 | Complete ✓ | 2026-01-25 |
-| 2. Document Processing | 0/TBD | Not started | - |
+| 2. Document Processing | 0/5 | Planned | - |
 | 3. MCP Server Core | 0/TBD | Not started | - |
 | 4. Observability & Manual Sync | 0/TBD | Not started | - |
 | 5. Deployment | 0/TBD | Not started | - |
