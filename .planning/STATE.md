@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 Phase: 2 of 5 (Document Processing)
 Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 02-01-PLAN.md (GitHub Content Fetcher)
+Last activity: 2026-01-25 — Completed 02-03-PLAN.md (OpenAI Embeddings Client)
 
 Progress: [████████░░] 88%
 
@@ -62,6 +62,10 @@ Recent decisions affecting current work:
 - Use GPT-4o for metadata generation (higher quality than 3.5-turbo) — Plan 02-04
 - Truncate at 16k tokens for cost efficiency and error prevention — Plan 02-04
 - Per-document metadata generation (not per-chunk) for 10-20x cost reduction — Plan 02-04
+- Batch size 500 texts for embedding requests (balances RPM vs TPM) — Plan 02-03
+- Validate OPENAI_API_KEY on client creation (fail-fast for better errors) — Plan 02-03
+- Retry only HTTP 429 rate limits (treat other errors as permanent) — Plan 02-03
+- Use float32 for embeddings (50% memory reduction, negligible precision loss) — Plan 02-03
 
 ### Pending Todos
 
@@ -80,7 +84,7 @@ None blocking current work. All flagged for consideration during planning.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 02-01-PLAN.md (GitHub Content Fetcher)
+Stopped at: Completed 02-03-PLAN.md (OpenAI Embeddings Client)
 Resume file: None
 
 ---
