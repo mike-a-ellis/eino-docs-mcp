@@ -30,10 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Document metadata (summary, entities, path, URL, timestamp, commit SHA) is stored and queryable
   4. Data persists across server restarts without re-indexing
   5. Current GitHub commit SHA is tracked and retrievable for indexed content
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 01-01-PLAN.md — Project setup with Go module, Qdrant Docker, and storage data models
+- [ ] 01-02-PLAN.md — Qdrant client wrapper with connection, health checks, and collection management
+- [ ] 01-03-PLAN.md — Document storage operations and persistence integration tests
 
 ### Phase 2: Document Processing
 **Goal**: Documentation is fetched, chunked, embedded, and indexed in vector database
@@ -99,7 +101,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Storage Foundation | 0/TBD | Not started | - |
+| 1. Storage Foundation | 0/3 | Planned | - |
 | 2. Document Processing | 0/TBD | Not started | - |
 | 3. MCP Server Core | 0/TBD | Not started | - |
 | 4. Observability & Manual Sync | 0/TBD | Not started | - |
