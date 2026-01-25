@@ -3,12 +3,15 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/bull/eino-mcp-server/internal/embedding"
 	mcpserver "github.com/bull/eino-mcp-server/internal/mcp"
+	"github.com/bull/eino-mcp-server/internal/storage"
 )
 
 func main() {
@@ -16,12 +19,55 @@ func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 	defer cancel()
 
-	// Create server (dependencies will be wired in Plan 03-02)
-	server := mcpserver.NewServer(&mcpserver.Config{})
+	// Configuration from environment
+	qdrantHost := getEnv("QDRANT_HOST", "localhost")
+	qdrantPort := getEnvInt("QDRANT_PORT", 6334)
 
-	// Run server (blocks until client disconnects or signal received)
+	// Initialize storage
+	store, err := storage.NewQdrantStorage(qdrantHost, qdrantPort)
+	if err != nil {
+		log.Fatalf("failed to connect to Qdrant: %v", err)
+	}
+	defer store.Close()
+
+	// Ensure collection exists
+	if err := store.EnsureCollection(ctx); err != nil {
+		log.Fatalf("failed to ensure collection: %v", err)
+	}
+
+	// Initialize embedding client
+	embeddingClient, err := embedding.NewClient()
+	if err != nil {
+		log.Fatalf("failed to create embedding client: %v", err)
+	}
+	embedder := embedding.NewEmbedder(embeddingClient, 0) // Use default batch size
+
+	// Create and run server
+	server := mcpserver.NewServer(&mcpserver.Config{
+		Storage:  store,
+		Embedder: embedder,
+	})
+
+	log.Println("Starting EINO Documentation MCP Server...")
 	if err := server.Run(ctx); err != nil {
 		log.Printf("server error: %v", err)
 		os.Exit(1)
 	}
+}
+
+func getEnv(key, defaultValue string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return defaultValue
+}
+
+func getEnvInt(key string, defaultValue int) int {
+	if v := os.Getenv(key); v != "" {
+		var i int
+		if _, err := fmt.Sscanf(v, "%d", &i); err == nil {
+			return i
+		}
+	}
+	return defaultValue
 }

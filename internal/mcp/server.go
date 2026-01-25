@@ -3,18 +3,22 @@ package mcp
 import (
 	"context"
 
+	"github.com/bull/eino-mcp-server/internal/embedding"
+	"github.com/bull/eino-mcp-server/internal/storage"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 // Server wraps the MCP server with dependencies.
 type Server struct {
-	server *mcp.Server
-	// Storage and embedder will be injected in Plan 03-02
+	server   *mcp.Server
+	storage  *storage.QdrantStorage
+	embedder *embedding.Embedder
 }
 
 // Config holds server dependencies.
 type Config struct {
-	// Will add Storage and Embedder in Plan 03-02
+	Storage  *storage.QdrantStorage
+	Embedder *embedding.Embedder
 }
 
 // NewServer creates a configured MCP server with tools registered.
@@ -26,48 +30,30 @@ func NewServer(cfg *Config) *Server {
 
 	server := mcp.NewServer(impl, nil)
 
-	// Register tools (stub handlers for now - will implement in Plan 03-02)
+	// Register tools with real handlers
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "search_docs",
-		Description: "Search EINO documentation semantically. Returns metadata for matching documents.",
-	}, searchDocsStub)
+		Description: "Search EINO documentation semantically. Returns metadata for matching documents. Use fetch_doc to get full content.",
+	}, makeSearchHandler(cfg.Storage, cfg.Embedder))
 
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "fetch_doc",
 		Description: "Retrieve a specific EINO document by path. Returns full markdown content.",
-	}, fetchDocStub)
+	}, makeFetchHandler(cfg.Storage))
 
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "list_docs",
 		Description: "List all available EINO documentation paths.",
-	}, listDocsStub)
+	}, makeListHandler(cfg.Storage))
 
-	return &Server{server: server}
+	return &Server{
+		server:   server,
+		storage:  cfg.Storage,
+		embedder: cfg.Embedder,
+	}
 }
 
 // Run starts the server with stdio transport (blocks until client disconnects).
 func (s *Server) Run(ctx context.Context) error {
 	return s.server.Run(ctx, &mcp.StdioTransport{})
-}
-
-// Stub handlers - return placeholder responses
-
-func searchDocsStub(ctx context.Context, req *mcp.CallToolRequest, input SearchDocsInput) (*mcp.CallToolResult, SearchDocsOutput, error) {
-	return nil, SearchDocsOutput{
-		Results: []SearchResult{},
-		Message: "Search not yet implemented",
-	}, nil
-}
-
-func fetchDocStub(ctx context.Context, req *mcp.CallToolRequest, input FetchDocInput) (*mcp.CallToolResult, FetchDocOutput, error) {
-	return nil, FetchDocOutput{
-		Found: false,
-	}, nil
-}
-
-func listDocsStub(ctx context.Context, req *mcp.CallToolRequest, input ListDocsInput) (*mcp.CallToolResult, ListDocsOutput, error) {
-	return nil, ListDocsOutput{
-		Paths: []string{},
-		Count: 0,
-	}, nil
 }
