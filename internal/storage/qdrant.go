@@ -81,6 +81,83 @@ func (s *QdrantStorage) Health(ctx context.Context) error {
 	return nil
 }
 
+// EnsureCollection ensures the documents collection exists with proper configuration.
+// Creates collection with 1536-dimension vectors (cosine distance) and payload indexes.
+// Idempotent - safe to call multiple times.
+func (s *QdrantStorage) EnsureCollection(ctx context.Context) error {
+	// Check if collection already exists
+	collections, err := s.client.ListCollections(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to list collections: %w", err)
+	}
+
+	// Check if our collection exists
+	for _, name := range collections {
+		if name == CollectionName {
+			// Collection already exists, nothing to do
+			return nil
+		}
+	}
+
+	// Collection doesn't exist, create it
+	err = s.client.CreateCollection(ctx, &qdrant.CreateCollection{
+		CollectionName: CollectionName,
+		VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+			Size:     VectorDimension,
+			Distance: qdrant.Distance_Cosine,
+		}),
+	})
+	if err != nil {
+		return fmt.Errorf("failed to create collection: %w", err)
+	}
+
+	// Create payload indexes for all filterable fields
+	err = s.createPayloadIndexes(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to create payload indexes: %w", err)
+	}
+
+	return nil
+}
+
+// createPayloadIndexes creates indexes for all filterable fields.
+// CRITICAL: Without these indexes, filtering becomes 10-100x slower.
+func (s *QdrantStorage) createPayloadIndexes(ctx context.Context) error {
+	fields := []string{
+		"path",          // Filter documents by file path
+		"repository",    // Filter by repository
+		"commit_sha",    // Filter by commit
+		"type",          // Distinguish "parent" vs "chunk"
+		"parent_doc_id", // Lookup chunks by parent
+	}
+
+	for _, field := range fields {
+		_, err := s.client.CreateFieldIndex(ctx, &qdrant.CreateFieldIndexCollection{
+			CollectionName: CollectionName,
+			FieldName:      field,
+			FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
+		})
+		if err != nil {
+			return fmt.Errorf("failed to create index for field %s: %w", field, err)
+		}
+	}
+
+	return nil
+}
+
+// ClearCollection deletes all points in the collection.
+// Useful for re-indexing scenarios.
+func (s *QdrantStorage) ClearCollection(ctx context.Context) error {
+	// Delete collection and recreate it
+	err := s.client.DeleteCollection(ctx, CollectionName)
+	if err != nil {
+		return fmt.Errorf("failed to delete collection: %w", err)
+	}
+
+	// Recreate with proper configuration
+	return s.EnsureCollection(ctx)
+}
+
 // Close closes the Qdrant client connection.
 func (s *QdrantStorage) Close() error {
 	if s.client != nil {
