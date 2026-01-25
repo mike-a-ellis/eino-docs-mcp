@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 1 of 5 (Storage Foundation)
-Plan: 1 of TBD in current phase
+Plan: 2 of TBD in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 01-01-PLAN.md
+Last activity: 2026-01-25 — Completed 01-02-PLAN.md
 
-Progress: [█░░░░░░░░░] ~10%
+Progress: [██░░░░░░░░] ~20%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 6.7 min
-- Total execution time: 0.1 hours
+- Total plans completed: 2
+- Average duration: 4.6 min
+- Total execution time: 0.15 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-storage-foundation | 1 | 6.7min | 6.7min |
+| 01-storage-foundation | 2 | 9.2min | 4.6min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6.7min)
-- Trend: N/A (need more data)
+- Last 5 plans: 01-01 (6.7min), 01-02 (2.5min)
+- Trend: Improving velocity (6.7min → 2.5min)
 
 *Updated after each plan completion*
 
@@ -49,6 +49,9 @@ Recent decisions affecting current work:
 - Use gRPC port 6334 for Qdrant (2-3x faster than REST) — Plan 01-01
 - Named Docker volume over bind mount (WSL filesystem performance) — Plan 01-01
 - Duplicate path/repository in chunks for efficient filtering — Plan 01-01
+- Fail-fast startup for Qdrant connection (no degraded mode) — Plan 01-02
+- Exponential backoff retry: 500ms initial, 10s max, 30s total — Plan 01-02
+- Payload indexes created at collection setup time (not lazily) — Plan 01-02
 
 ### Pending Todos
 
@@ -66,8 +69,8 @@ None blocking current work. All flagged for consideration during planning.
 
 ## Session Continuity
 
-Last session: 2026-01-25T17:49:44Z
-Stopped at: Completed 01-01-PLAN.md (Project Foundation)
+Last session: 2026-01-25T17:55:34Z
+Stopped at: Completed 01-02-PLAN.md (Qdrant Client Infrastructure)
 Resume file: None
 
 ---
