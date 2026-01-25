@@ -386,6 +386,65 @@ func (s *QdrantStorage) SearchChunks(ctx context.Context, embedding []float32, l
 	return chunks, nil
 }
 
+// SearchChunksWithScores performs vector similarity search on chunks.
+// Returns top N chunks with similarity scores, ordered by score descending.
+// This replaces SearchChunks for MCP handlers that need relevance scores.
+func (s *QdrantStorage) SearchChunksWithScores(ctx context.Context, embedding []float32, limit int, repository string) ([]*ScoredChunk, error) {
+	if len(embedding) != VectorDimension {
+		return nil, fmt.Errorf("%w: query has %d dimensions, expected %d",
+			ErrDimensionMismatch, len(embedding), VectorDimension)
+	}
+
+	// Build filter conditions
+	must := []*qdrant.Condition{
+		qdrant.NewMatch("type", "chunk"),
+	}
+	if repository != "" {
+		must = append(must, qdrant.NewMatch("repository", repository))
+	}
+
+	filter := &qdrant.Filter{
+		Must: must,
+	}
+
+	// Perform vector search using named vector "content"
+	vectorName := "content"
+	results, err := s.client.Query(ctx, &qdrant.QueryPoints{
+		CollectionName: CollectionName,
+		Query:          qdrant.NewQuery(embedding...),
+		Using:          &vectorName,
+		Filter:         filter,
+		Limit:          qdrant.PtrOf(uint64(limit)),
+		WithPayload:    qdrant.NewWithPayload(true),
+		WithVectors:    qdrant.NewWithVectors(false), // Don't need vectors in response
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to search chunks: %w", err)
+	}
+
+	scoredChunks := make([]*ScoredChunk, 0, len(results))
+	for _, result := range results {
+		payload := result.Payload
+
+		chunk := &Chunk{
+			ID:          result.Id.GetUuid(),
+			ParentDocID: payload["parent_doc_id"].GetStringValue(),
+			ChunkIndex:  int(payload["chunk_index"].GetIntegerValue()),
+			HeaderPath:  payload["header_path"].GetStringValue(),
+			Content:     payload["content"].GetStringValue(),
+			Path:        payload["path"].GetStringValue(),
+			Repository:  payload["repository"].GetStringValue(),
+		}
+
+		scoredChunks = append(scoredChunks, &ScoredChunk{
+			Chunk: chunk,
+			Score: float64(result.Score), // Qdrant returns float32, convert to float64
+		})
+	}
+
+	return scoredChunks, nil
+}
+
 // GetCommitSHA retrieves the commit SHA for indexed content from a repository.
 // Returns empty string if no documents found for the repository.
 func (s *QdrantStorage) GetCommitSHA(ctx context.Context, repository string) (string, error) {

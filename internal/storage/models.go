@@ -34,6 +34,12 @@ type Chunk struct {
 	Embedding   []float32 // 1536-dim vector (text-embedding-3-small)
 }
 
+// ScoredChunk wraps a Chunk with its similarity score from vector search.
+type ScoredChunk struct {
+	*Chunk
+	Score float64 // Similarity score (0-1, higher is more similar)
+}
+
 // CollectionName is the single Qdrant collection for all documents.
 const CollectionName = "documents"
 
