@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 2 of 5 (Document Processing)
-Plan: 4 of 5 in current phase
-Status: In progress
-Last activity: 2026-01-25 — Completed 02-03-PLAN.md (OpenAI Embeddings Client)
+Plan: 5 of 5 in current phase
+Status: Phase complete
+Last activity: 2026-01-25 — Completed 02-05-PLAN.md (Indexing Pipeline)
 
-Progress: [████████░░] 88%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 5.5 min
-- Total execution time: 0.64 hours
+- Total plans completed: 8
+- Average duration: 5.1 min
+- Total execution time: 0.68 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-storage-foundation | 3 | 21.2min | 7.1min |
-| 02-document-processing | 4 | 17.4min | 4.4min |
+| 02-document-processing | 5 | 20.2min | 4.0min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (12min), 02-02 (3min), 02-03 (8.6min), 02-04 (3.4min), 02-01 (3.5min)
-- Trend: Phase 2 tasks executing efficiently with focused scope
+- Last 5 plans: 02-02 (3min), 02-03 (8.6min), 02-04 (3.4min), 02-01 (3.5min), 02-05 (2.8min)
+- Trend: Phase 2 completed with strong velocity (4.0min avg vs 7.1min Phase 1)
 
 *Updated after each plan completion*
 
@@ -66,6 +66,9 @@ Recent decisions affecting current work:
 - Validate OPENAI_API_KEY on client creation (fail-fast for better errors) — Plan 02-03
 - Retry only HTTP 429 rate limits (treat other errors as permanent) — Plan 02-03
 - Use float32 for embeddings (50% memory reduction, negligible precision loss) — Plan 02-03
+- Metadata failures are non-fatal (continue with empty values) — Plan 02-05
+- Unparseable documents skipped with warning (don't fail entire indexing) — Plan 02-05
+- Embedding failures are fatal for that document (required for search) — Plan 02-05
 
 ### Pending Todos
 
@@ -84,7 +87,7 @@ None blocking current work. All flagged for consideration during planning.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 02-03-PLAN.md (OpenAI Embeddings Client)
+Stopped at: Completed 02-05-PLAN.md (Indexing Pipeline) - Phase 2 complete
 Resume file: None
 
 ---
