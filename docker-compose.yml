@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.16.0
+    ports:
+      - "6333:6333"  # REST API
+      - "6334:6334"  # gRPC (primary - use this)
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      - QDRANT__LOG_LEVEL=INFO
+    ulimits:
+      nofile:
+        soft: 10000
+        hard: 10000
+
+volumes:
+  qdrant_data:
