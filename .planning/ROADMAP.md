@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Storage Foundation** - Vector database infrastructure with persistent storage
 - [x] **Phase 2: Document Processing** - Fetch, chunk, embed, and index EINO documentation
 - [x] **Phase 3: MCP Server Core** - Implement MCP protocol with search and retrieval tools
-- [ ] **Phase 4: Observability & Manual Sync** - Index status inspection and manual re-indexing
+- [x] **Phase 4: Observability & Manual Sync** - Index status inspection and manual re-indexing
 - [ ] **Phase 5: Deployment** - Production deployment to Fly.io with persistent volumes
 
 ## Phase Details
@@ -84,8 +84,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Index status MCP tool with staleness detection
-- [ ] 04-02-PLAN.md — CLI sync command for manual re-indexing
+- [x] 04-01-PLAN.md — Index status MCP tool with staleness detection
+- [x] 04-02-PLAN.md — CLI sync command for manual re-indexing
 
 ### Phase 5: Deployment
 **Goal**: Server runs reliably on Fly.io with persistent storage and health monitoring
@@ -111,7 +111,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Storage Foundation | 3/3 | Complete | 2026-01-25 |
 | 2. Document Processing | 5/5 | Complete | 2026-01-25 |
 | 3. MCP Server Core | 3/3 | Complete | 2026-01-25 |
-| 4. Observability & Manual Sync | 0/2 | Planned | - |
+| 4. Observability & Manual Sync | 2/2 | Complete | 2026-01-25 |
 | 5. Deployment | 0/TBD | Not started | - |
 
 ---
