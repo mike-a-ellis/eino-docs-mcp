@@ -49,6 +49,11 @@ func NewServer(cfg *Config) *Server {
 		Description: "List all available EINO documentation paths.",
 	}, makeListHandler(cfg.Storage))
 
+	mcp.AddTool(server, &mcp.Tool{
+		Name:        "get_index_status",
+		Description: "Get the current status of the EINO documentation index including document counts, last sync time, and staleness indicator.",
+	}, makeStatusHandler(cfg.Storage, cfg.GitHub))
+
 	return &Server{
 		server:   server,
 		storage:  cfg.Storage,

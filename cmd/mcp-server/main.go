@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	"github.com/bull/eino-mcp-server/internal/embedding"
+	ghclient "github.com/bull/eino-mcp-server/internal/github"
 	mcpserver "github.com/bull/eino-mcp-server/internal/mcp"
 	"github.com/bull/eino-mcp-server/internal/storage"
 )
@@ -42,10 +43,17 @@ func main() {
 	}
 	embedder := embedding.NewEmbedder(embeddingClient, 0) // Use default batch size
 
+	// Initialize GitHub client
+	ghClient, err := ghclient.NewClient(ctx)
+	if err != nil {
+		log.Fatalf("failed to create GitHub client: %v", err)
+	}
+
 	// Create and run server
 	server := mcpserver.NewServer(&mcpserver.Config{
 		Storage:  store,
 		Embedder: embedder,
+		GitHub:   ghClient,
 	})
 
 	log.Println("Starting EINO Documentation MCP Server...")
