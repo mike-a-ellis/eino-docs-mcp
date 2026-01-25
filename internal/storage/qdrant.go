@@ -589,3 +589,21 @@ func (s *QdrantStorage) GetDocumentByPath(ctx context.Context, path string, repo
 
 	return doc, nil
 }
+
+// CollectionInfo contains collection statistics
+type CollectionInfo struct {
+	PointsCount uint64
+}
+
+// GetCollectionInfo retrieves collection statistics including total points count.
+// Used for calculating total chunks in the index.
+func (s *QdrantStorage) GetCollectionInfo(ctx context.Context) (*CollectionInfo, error) {
+	collection, err := s.client.GetCollection(ctx, CollectionName)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get collection: %w", err)
+	}
+
+	return &CollectionInfo{
+		PointsCount: collection.PointsCount,
+	}, nil
+}

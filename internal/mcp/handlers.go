@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/bull/eino-mcp-server/internal/embedding"
+	ghclient "github.com/bull/eino-mcp-server/internal/github"
 	"github.com/bull/eino-mcp-server/internal/storage"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
@@ -146,6 +147,88 @@ func makeListHandler(store *storage.QdrantStorage) func(
 		return nil, ListDocsOutput{
 			Paths: paths,
 			Count: len(paths),
+		}, nil
+	}
+}
+
+// makeStatusHandler creates the get_index_status tool handler.
+// Returns comprehensive index status including document counts, paths, last sync time,
+// source commit SHA, and staleness information (commits behind GitHub HEAD).
+func makeStatusHandler(
+	store *storage.QdrantStorage,
+	ghClient *ghclient.Client,
+) func(context.Context, *mcp.CallToolRequest, StatusInput) (*mcp.CallToolResult, StatusOutput, error) {
+	return func(ctx context.Context, req *mcp.CallToolRequest, input StatusInput) (
+		*mcp.CallToolResult, StatusOutput, error,
+	) {
+		// Get document paths
+		paths, err := store.ListDocumentPaths(ctx, defaultRepository)
+		if err != nil {
+			return nil, StatusOutput{}, fmt.Errorf("qdrant_error: failed to list documents: %w", err)
+		}
+
+		totalDocs := len(paths)
+
+		// Get commit SHA
+		commitSHA, err := store.GetCommitSHA(ctx, defaultRepository)
+		if err != nil {
+			return nil, StatusOutput{}, fmt.Errorf("qdrant_error: failed to get commit SHA: %w", err)
+		}
+
+		// Get last sync time from any document (they all have same IndexedAt for a sync)
+		var lastSyncTime string
+		if totalDocs > 0 {
+			doc, err := store.GetDocumentByPath(ctx, paths[0], defaultRepository)
+			if err != nil {
+				return nil, StatusOutput{}, fmt.Errorf("qdrant_error: failed to get document for timestamp: %w", err)
+			}
+			lastSyncTime = doc.Metadata.IndexedAt.Format("2006-01-02T15:04:05Z07:00")
+		}
+
+		// Get total points count from collection to calculate chunk count
+		collectionInfo, err := store.GetCollectionInfo(ctx)
+		if err != nil {
+			return nil, StatusOutput{}, fmt.Errorf("qdrant_error: failed to get collection info: %w", err)
+		}
+
+		// Total chunks = total points - parent documents
+		// Each document creates 1 parent point + N chunk points
+		totalChunks := int(collectionInfo.PointsCount) - totalDocs
+
+		// Check staleness against GitHub HEAD
+		var commitsBehind *int
+		var staleWarning string
+
+		if commitSHA != "" && ghClient != nil {
+			// Compare indexed commit (base) with main branch (head)
+			comparison, _, err := ghClient.Repositories.CompareCommits(
+				ctx,
+				"cloudwego",
+				"cloudwego.github.io",
+				commitSHA,
+				"main",
+				nil,
+			)
+			if err == nil && comparison != nil {
+				behind := comparison.GetAheadBy()
+				commitsBehind = &behind
+
+				// Set warning if >20 commits behind
+				if behind > 20 {
+					staleWarning = fmt.Sprintf("Index is %d commits behind GitHub HEAD. Consider resyncing.", behind)
+				}
+			}
+			// If GitHub API fails, leave commitsBehind as nil (not an error for the tool)
+		}
+
+		return nil, StatusOutput{
+			TotalDocs:     totalDocs,
+			TotalChunks:   totalChunks,
+			IndexedPaths:  paths,
+			LastSyncTime:  lastSyncTime,
+			SourceCommit:  commitSHA,
+			CommitsBehind: commitsBehind,
+			StaleWarning:  staleWarning,
 		}, nil
 	}
 }
