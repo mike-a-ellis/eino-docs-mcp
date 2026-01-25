@@ -25,3 +25,8 @@ func NewClient() (*Client, error) {
 
 	return &Client{client: &client}, nil
 }
+
+// Client returns the underlying OpenAI client for use in other packages (e.g., metadata generation).
+func (c *Client) Client() *openai.Client {
+	return c.client
+}
