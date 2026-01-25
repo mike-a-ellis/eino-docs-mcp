@@ -81,10 +81,11 @@ Plans:
   1. User can query get_index_status tool to see indexed URLs, timestamps, stats, and source commit SHA
   2. User can trigger manual sync to re-index documentation from GitHub
   3. Index statistics show total documents, chunks, last sync time, and data freshness
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 04-01-PLAN.md — Index status MCP tool with staleness detection
+- [ ] 04-02-PLAN.md — CLI sync command for manual re-indexing
 
 ### Phase 5: Deployment
 **Goal**: Server runs reliably on Fly.io with persistent storage and health monitoring
@@ -103,14 +104,14 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Storage Foundation | 3/3 | Complete ✓ | 2026-01-25 |
-| 2. Document Processing | 5/5 | Complete ✓ | 2026-01-25 |
-| 3. MCP Server Core | 3/3 | Complete ✓ | 2026-01-25 |
-| 4. Observability & Manual Sync | 0/TBD | Not started | - |
+| 1. Storage Foundation | 3/3 | Complete | 2026-01-25 |
+| 2. Document Processing | 5/5 | Complete | 2026-01-25 |
+| 3. MCP Server Core | 3/3 | Complete | 2026-01-25 |
+| 4. Observability & Manual Sync | 0/2 | Planned | - |
 | 5. Deployment | 0/TBD | Not started | - |
 
 ---
