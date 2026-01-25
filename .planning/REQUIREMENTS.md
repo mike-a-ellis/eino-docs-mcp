@@ -18,11 +18,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Document Processing
 
-- [ ] **PROC-01**: Fetch markdown files from GitHub repo (cloudwego/cloudwego.github.io/content/en/docs/eino)
-- [ ] **PROC-02**: Chunk documents at markdown header boundaries (semantic chunking)
-- [ ] **PROC-03**: Generate OpenAI embeddings (text-embedding-3-small) for document chunks
-- [ ] **PROC-04**: Generate LLM summary for each document during indexing
-- [ ] **PROC-05**: Extract key EINO functions/methods/classes from each document during indexing
+- [x] **PROC-01**: Fetch markdown files from GitHub repo (cloudwego/cloudwego.github.io/content/en/docs/eino)
+- [x] **PROC-02**: Chunk documents at markdown header boundaries (semantic chunking)
+- [x] **PROC-03**: Generate OpenAI embeddings (text-embedding-3-small) for document chunks
+- [x] **PROC-04**: Generate LLM summary for each document during indexing
+- [x] **PROC-05**: Extract key EINO functions/methods/classes from each document during indexing
 
 ### Storage
 
@@ -85,11 +85,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MCP-04 | Phase 3 | Pending |
 | MCP-05 | Phase 3 | Pending |
 | MCP-06 | Phase 4 | Pending |
-| PROC-01 | Phase 2 | Pending |
-| PROC-02 | Phase 2 | Pending |
-| PROC-03 | Phase 2 | Pending |
-| PROC-04 | Phase 2 | Pending |
-| PROC-05 | Phase 2 | Pending |
+| PROC-01 | Phase 2 | Complete |
+| PROC-02 | Phase 2 | Complete |
+| PROC-03 | Phase 2 | Complete |
+| PROC-04 | Phase 2 | Complete |
+| PROC-05 | Phase 2 | Complete |
 | STOR-01 | Phase 1 | Complete |
 | STOR-02 | Phase 1 | Complete |
 | STOR-03 | Phase 1 | Complete |

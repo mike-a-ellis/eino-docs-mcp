@@ -13,7 +13,7 @@ This roadmap delivers an MCP server that provides AI agents with on-demand acces
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Storage Foundation** - Vector database infrastructure with persistent storage
-- [ ] **Phase 2: Document Processing** - Fetch, chunk, embed, and index EINO documentation
+- [x] **Phase 2: Document Processing** - Fetch, chunk, embed, and index EINO documentation
 - [ ] **Phase 3: MCP Server Core** - Implement MCP protocol with search and retrieval tools
 - [ ] **Phase 4: Observability & Manual Sync** - Index status inspection and manual re-indexing
 - [ ] **Phase 5: Deployment** - Production deployment to Fly.io with persistent volumes
@@ -50,11 +50,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — GitHub content fetcher with rate limit handling
-- [ ] 02-02-PLAN.md — Markdown chunker with header hierarchy extraction
-- [ ] 02-03-PLAN.md — OpenAI embeddings client with batching and retry
-- [ ] 02-04-PLAN.md — LLM metadata generator for summaries and entities
-- [ ] 02-05-PLAN.md — End-to-end indexing pipeline orchestration
+- [x] 02-01-PLAN.md — GitHub content fetcher with rate limit handling
+- [x] 02-02-PLAN.md — Markdown chunker with header hierarchy extraction
+- [x] 02-03-PLAN.md — OpenAI embeddings client with batching and retry
+- [x] 02-04-PLAN.md — LLM metadata generator for summaries and entities
+- [x] 02-05-PLAN.md — End-to-end indexing pipeline orchestration
 
 ### Phase 3: MCP Server Core
 **Goal**: AI agents can search and retrieve EINO documentation via MCP protocol
@@ -106,7 +106,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Storage Foundation | 3/3 | Complete ✓ | 2026-01-25 |
-| 2. Document Processing | 0/5 | Planned | - |
+| 2. Document Processing | 5/5 | Complete ✓ | 2026-01-25 |
 | 3. MCP Server Core | 0/TBD | Not started | - |
 | 4. Observability & Manual Sync | 0/TBD | Not started | - |
 | 5. Deployment | 0/TBD | Not started | - |
