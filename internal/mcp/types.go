@@ -4,13 +4,14 @@ package mcp
 import "time"
 
 // SearchDocsInput defines the input parameters for the search_docs tool.
+// Query is required (no omitempty), MaxResults and MinScore are optional.
 type SearchDocsInput struct {
 	// Query is the semantic search query.
-	Query string `json:"query" jsonschema:"required,description=The semantic search query for finding relevant documentation"`
-	// MaxResults is the maximum number of documents to return.
-	MaxResults int `json:"max_results,omitempty" jsonschema:"minimum=1,maximum=20,default=5,description=Maximum number of documents to return"`
-	// MinScore is the minimum relevance threshold (0-1).
-	MinScore float64 `json:"min_score,omitempty" jsonschema:"minimum=0,maximum=1,default=0.5,description=Minimum relevance score threshold (0-1)"`
+	Query string `json:"query" jsonschema:"The semantic search query for finding relevant documentation"`
+	// MaxResults is the maximum number of documents to return (1-20, default 5).
+	MaxResults int `json:"max_results,omitempty" jsonschema:"Maximum number of documents to return (1-20, default 5)"`
+	// MinScore is the minimum relevance threshold (0-1, default 0.5).
+	MinScore float64 `json:"min_score,omitempty" jsonschema:"Minimum relevance score threshold (0-1, default 0.5)"`
 }
 
 // SearchDocsOutput contains the search results.
@@ -36,9 +37,10 @@ type SearchResult struct {
 }
 
 // FetchDocInput defines the input parameters for the fetch_doc tool.
+// Path is required (no omitempty).
 type FetchDocInput struct {
-	// Path is the document path to retrieve (e.g., "getting-started/installation.md").
-	Path string `json:"path" jsonschema:"required,description=The document path to retrieve (e.g. getting-started/installation.md)"`
+	// Path is the document path to retrieve.
+	Path string `json:"path" jsonschema:"The document path to retrieve (e.g. getting-started/installation.md)"`
 }
 
 // FetchDocOutput contains the retrieved document.
