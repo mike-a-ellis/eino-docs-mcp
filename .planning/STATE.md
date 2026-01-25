@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 2 of 5 (Document Processing)
-Plan: 1 of TBD in current phase
+Plan: 4 of TBD in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 02-02-PLAN.md (Markdown Chunker)
+Last activity: 2026-01-25 — Completed 02-04-PLAN.md (LLM Metadata Generator)
 
-Progress: [██░░░░░░░░] 22%
+Progress: [████░░░░░░] 36%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 6.1 min
-- Total execution time: 0.41 hours
+- Total plans completed: 7
+- Average duration: 5.5 min
+- Total execution time: 0.64 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-storage-foundation | 3 | 21.2min | 7.1min |
-| 02-document-processing | 1 | 3min | 3min |
+| 02-document-processing | 4 | 17.4min | 4.4min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6.7min), 01-02 (2.5min), 01-03 (12min), 02-02 (3min)
-- Trend: Focused implementation tasks execute quickly
+- Last 5 plans: 01-02 (2.5min), 01-03 (12min), 02-02 (3min), 02-03 (8.6min), 02-04 (3.4min)
+- Trend: Phase 2 tasks executing efficiently with focused scope
 
 *Updated after each plan completion*
 
@@ -57,6 +57,11 @@ Recent decisions affecting current work:
 - Split only at H1/H2 boundaries (not H3+) for semantic coherence — Plan 02-02
 - No chunk overlap - header hierarchy provides sufficient context — Plan 02-02
 - No size limits on chunks - preserve complete sections — Plan 02-02
+- Use go-github-ratelimit middleware instead of hand-rolled rate limiting — Plan 02-01
+- Default to cloudwego/cloudwego.github.io repo with content/en/docs/eino path — Plan 02-01
+- Use GPT-4o for metadata generation (higher quality than 3.5-turbo) — Plan 02-04
+- Truncate at 16k tokens for cost efficiency and error prevention — Plan 02-04
+- Per-document metadata generation (not per-chunk) for 10-20x cost reduction — Plan 02-04
 
 ### Pending Todos
 
@@ -75,7 +80,7 @@ None blocking current work. All flagged for consideration during planning.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 02-02-PLAN.md (Markdown Chunker)
+Stopped at: Completed 02-04-PLAN.md (LLM Metadata Generator)
 Resume file: None
 
 ---
