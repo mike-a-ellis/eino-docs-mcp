@@ -99,12 +99,15 @@ func (s *QdrantStorage) EnsureCollection(ctx context.Context) error {
 		}
 	}
 
-	// Collection doesn't exist, create it
+	// Collection doesn't exist, create it with named vectors
+	// This allows parent documents (no vector) and chunks (with "content" vector) in same collection
 	err = s.client.CreateCollection(ctx, &qdrant.CreateCollection{
 		CollectionName: CollectionName,
-		VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
-			Size:     VectorDimension,
-			Distance: qdrant.Distance_Cosine,
+		VectorsConfig: qdrant.NewVectorsConfigMap(map[string]*qdrant.VectorParams{
+			"content": {
+				Size:     VectorDimension,
+				Distance: qdrant.Distance_Cosine,
+			},
 		}),
 	})
 	if err != nil {
@@ -187,20 +190,34 @@ func (s *QdrantStorage) upsertWithRetry(ctx context.Context, points []*qdrant.Po
 // UpsertDocument stores a parent document in Qdrant.
 // Parent documents have no embedding vector - they exist for full-content retrieval.
 func (s *QdrantStorage) UpsertDocument(ctx context.Context, doc *Document) error {
+	// Build payload map
+	payload := map[string]any{
+		"type":       "parent",
+		"content":    doc.Content,
+		"path":       doc.Metadata.Path,
+		"url":        doc.Metadata.URL,
+		"repository": doc.Metadata.Repository,
+		"commit_sha": doc.Metadata.CommitSHA,
+		"indexed_at": doc.Metadata.IndexedAt.Format(time.RFC3339),
+		"summary":    doc.Metadata.Summary,
+	}
+
+	// Add entities as interface slice (NewValueMap will handle conversion)
+	if len(doc.Metadata.Entities) > 0 {
+		entities := make([]interface{}, len(doc.Metadata.Entities))
+		for i, entity := range doc.Metadata.Entities {
+			entities[i] = entity
+		}
+		payload["entities"] = entities
+	} else {
+		payload["entities"] = []interface{}{}
+	}
+
+	// Parent documents don't have vectors - use empty vector map
 	point := &qdrant.PointStruct{
 		Id:      qdrant.NewIDUUID(doc.ID),
-		Vectors: nil, // No vector for parent documents
-		Payload: qdrant.NewValueMap(map[string]any{
-			"type":       "parent",
-			"content":    doc.Content,
-			"path":       doc.Metadata.Path,
-			"url":        doc.Metadata.URL,
-			"repository": doc.Metadata.Repository,
-			"commit_sha": doc.Metadata.CommitSHA,
-			"indexed_at": doc.Metadata.IndexedAt.Format(time.RFC3339),
-			"summary":    doc.Metadata.Summary,
-			"entities":   doc.Metadata.Entities,
-		}),
+		Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{}),
+		Payload: qdrant.NewValueMap(payload),
 	}
 
 	return s.upsertWithRetry(ctx, []*qdrant.PointStruct{point})
@@ -234,8 +251,10 @@ func (s *QdrantStorage) UpsertChunks(ctx context.Context, chunks []*Chunk) error
 
 		for j, chunk := range batch {
 			points[j] = &qdrant.PointStruct{
-				Id:      qdrant.NewIDUUID(chunk.ID),
-				Vectors: qdrant.NewVectors(chunk.Embedding...),
+				Id: qdrant.NewIDUUID(chunk.ID),
+				Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+					"content": qdrant.NewVector(chunk.Embedding...),
+				}),
 				Payload: qdrant.NewValueMap(map[string]any{
 					"type":          "chunk",
 					"parent_doc_id": chunk.ParentDocID,
@@ -333,10 +352,12 @@ func (s *QdrantStorage) SearchChunks(ctx context.Context, embedding []float32, l
 		Must: must,
 	}
 
-	// Perform vector search
+	// Perform vector search using named vector "content"
+	vectorName := "content"
 	results, err := s.client.Query(ctx, &qdrant.QueryPoints{
 		CollectionName: CollectionName,
 		Query:          qdrant.NewQuery(embedding...),
+		Using:          &vectorName,
 		Filter:         filter,
 		Limit:          qdrant.PtrOf(uint64(limit)),
 		WithPayload:    qdrant.NewWithPayload(true),
@@ -368,21 +389,20 @@ func (s *QdrantStorage) SearchChunks(ctx context.Context, embedding []float32, l
 // GetCommitSHA retrieves the commit SHA for indexed content from a repository.
 // Returns empty string if no documents found for the repository.
 func (s *QdrantStorage) GetCommitSHA(ctx context.Context, repository string) (string, error) {
-	// Query for any parent document from this repository
-	results, err := s.client.Query(ctx, &qdrant.QueryPoints{
+	// Scroll for any parent document from this repository (no vector search needed)
+	results, err := s.client.Scroll(ctx, &qdrant.ScrollPoints{
 		CollectionName: CollectionName,
-		Query:          qdrant.NewQueryNearest(nil), // No vector needed, just filter
 		Filter: &qdrant.Filter{
 			Must: []*qdrant.Condition{
 				qdrant.NewMatch("type", "parent"),
 				qdrant.NewMatch("repository", repository),
 			},
 		},
-		Limit:       qdrant.PtrOf(uint64(1)),
+		Limit:       qdrant.PtrOf(uint32(1)),
 		WithPayload: qdrant.NewWithPayload(true),
 	})
 	if err != nil {
-		return "", fmt.Errorf("failed to query commit SHA: %w", err)
+		return "", fmt.Errorf("failed to scroll for commit SHA: %w", err)
 	}
 
 	if len(results) == 0 {
