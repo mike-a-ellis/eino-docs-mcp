@@ -16,6 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Document Processing** - Fetch, chunk, embed, and index EINO documentation
 - [x] **Phase 3: MCP Server Core** - Implement MCP protocol with search and retrieval tools
 - [x] **Phase 4: Observability & Manual Sync** - Index status inspection and manual re-indexing
+- [ ] **Phase 4.1: Environment Configuration** - ENV file support for local and production environments (INSERTED)
 - [ ] **Phase 5: Deployment** - Production deployment to Fly.io with persistent volumes
 
 ## Phase Details
@@ -87,6 +88,21 @@ Plans:
 - [x] 04-01-PLAN.md — Index status MCP tool with staleness detection
 - [x] 04-02-PLAN.md — CLI sync command for manual re-indexing
 
+### Phase 4.1: Environment Configuration (INSERTED)
+**Goal**: Both mcp-server and sync CLI support environment configuration via .env files
+**Depends on**: Phase 4
+**Requirements**: None (urgent insertion)
+**Success Criteria** (what must be TRUE):
+  1. Both binaries load configuration from .env files automatically
+  2. local.env file for local development/testing configuration
+  3. prod.env file for production deployment (Fly.io) configuration
+  4. Environment variables (OPENAI_API_KEY, GITHUB_TOKEN, QDRANT_HOST, etc.) loaded from appropriate .env file
+  5. Clear documentation on which .env file to use for each environment
+**Plans**: 1 plan
+
+Plans:
+- [ ] 04.1-01-PLAN.md — Add godotenv, update binaries, create environment files and .gitignore
+
 ### Phase 5: Deployment
 **Goal**: Server runs reliably on Fly.io with persistent storage and health monitoring
 **Depends on**: Phase 4
@@ -104,7 +120,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 4.1 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -112,6 +128,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Document Processing | 5/5 | Complete | 2026-01-25 |
 | 3. MCP Server Core | 3/3 | Complete | 2026-01-25 |
 | 4. Observability & Manual Sync | 2/2 | Complete | 2026-01-25 |
+| 4.1 Environment Configuration | 0/1 | Not started | - |
 | 5. Deployment | 0/TBD | Not started | - |
 
 ---
