@@ -1,0 +1,33 @@
+# Environment files with secrets
+.env
+local.env
+*.local.env
+
+# Keep these committed
+!.env.example
+!prod.env
+
+# Go build artifacts
+/bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test artifacts
+*.test
+*.out
+coverage.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Qdrant data (if running locally outside Docker)
+qdrant_data/
