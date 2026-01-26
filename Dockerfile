@@ -10,9 +10,10 @@ RUN go mod download
 # Copy source code
 COPY . .
 
-# Build static binary
+# Build static binaries
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -ldflags="-w -s" -o mcp-server ./cmd/mcp-server
+    go build -ldflags="-w -s" -o mcp-server ./cmd/mcp-server && \
+    go build -ldflags="-w -s" -o eino-sync ./cmd/sync
 
 # Runtime stage - use Debian 12 for Qdrant binary (requires GLIBC 2.34)
 FROM debian:12-slim
@@ -28,8 +29,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy MCP server binary from build stage
+# Copy binaries from build stage
 COPY --from=builder /build/mcp-server /app/mcp-server
+COPY --from=builder /build/eino-sync /app/eino-sync
 
 # Create qdrant directory for process execution
 RUN mkdir -p /qdrant && ln -s /usr/local/bin/qdrant /qdrant/qdrant
