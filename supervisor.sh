@@ -6,8 +6,10 @@ set -e
 # Trap SIGTERM and SIGINT to gracefully shutdown
 trap 'echo "Shutting down..."; kill $QDRANT_PID; exit 0' TERM INT
 
-# Start Qdrant in the background
+# Start Qdrant in the background with explicit storage path
+# Uses /qdrant/storage which is mounted as a Fly.io volume for persistence
 echo "Starting Qdrant server..."
+export QDRANT__STORAGE__STORAGE_PATH=/qdrant/storage
 /qdrant/qdrant &
 QDRANT_PID=$!
 
