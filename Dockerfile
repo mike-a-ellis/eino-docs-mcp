@@ -37,8 +37,13 @@ RUN mkdir -p /qdrant && ln -s /usr/local/bin/qdrant /qdrant/qdrant
 # Create storage directory with proper permissions
 RUN mkdir -p /qdrant/storage && chmod 755 /qdrant/storage
 
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Expose ports (documentation only, Fly.io uses internal_port)
 EXPOSE 8080 6334
 
-# Default entrypoint (overridden by fly.toml processes)
-ENTRYPOINT ["/app/mcp-server"]
+# Use entrypoint script to handle different process types
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/app/mcp-server"]
