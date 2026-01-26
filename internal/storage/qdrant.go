@@ -214,10 +214,10 @@ func (s *QdrantStorage) UpsertDocument(ctx context.Context, doc *Document) error
 		payload["entities"] = []interface{}{}
 	}
 
-	// Parent documents don't have vectors - use empty vector map
+	// Parent documents don't have vectors - omit Vectors field entirely
+	// (passing empty map causes Qdrant to warn about 0-dimension vectors)
 	point := &qdrant.PointStruct{
 		Id:      qdrant.NewIDUUID(doc.ID),
-		Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{}),
 		Payload: qdrant.NewValueMap(payload),
 	}
 
