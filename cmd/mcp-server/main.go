@@ -58,36 +58,46 @@ func main() {
 		log.Fatalf("failed to create GitHub client: %v", err)
 	}
 
-	// Start health check server in background
-	// QdrantStorage implements HealthChecker interface via its Health(ctx) method
-	healthHandler := mcpserver.NewHealthHandler(store)
-	http.HandleFunc("/health", healthHandler)
-	go func() {
-		addr := "0.0.0.0:" + port
-		log.Printf("Starting health server on %s", addr)
-		if err := http.ListenAndServe(addr, nil); err != nil {
-			log.Printf("Health server error: %v", err)
-		}
-	}()
-
-	// Create and run MCP server (stdio)
+	// Create MCP server
 	server := mcpserver.NewServer(&mcpserver.Config{
 		Storage:  store,
 		Embedder: embedder,
 		GitHub:   ghClient,
 	})
 
-	// Check if running in server mode (health endpoint only) or stdio mode
+	// Create HTTP server with multiple endpoints
+	mux := http.NewServeMux()
+
+	// Health endpoint (for Fly.io health checks)
+	healthHandler := mcpserver.NewHealthHandler(store)
+	mux.HandleFunc("/health", healthHandler)
+
+	// MCP HTTP endpoint (for remote client connections)
+	mcpHTTPHandler := mcpserver.NewHTTPHandler(server, nil)
+	mux.Handle("/mcp", mcpHTTPHandler)
+
+	// Check if running in server mode (HTTP) or stdio mode (local development)
 	serverMode := getEnv("SERVER_MODE", "false") == "true"
 
 	if serverMode {
-		// Server mode: keep process alive for health endpoint only
-		log.Println("Running in server mode (health endpoint only)")
-		<-ctx.Done()
-		log.Println("Shutting down...")
+		// HTTP mode: serve MCP over HTTP for remote clients
+		addr := "0.0.0.0:" + port
+		log.Printf("Starting HTTP server on %s (MCP at /mcp, health at /health)", addr)
+		if err := http.ListenAndServe(addr, mux); err != nil {
+			log.Fatalf("HTTP server error: %v", err)
+		}
 	} else {
-		// Stdio mode: run MCP server over stdin/stdout
-		log.Println("Starting EINO Documentation MCP Server...")
+		// Stdio mode: run MCP server over stdin/stdout for local clients
+		// Also start HTTP health endpoint in background for local testing
+		go func() {
+			addr := "0.0.0.0:" + port
+			log.Printf("Starting health server on %s", addr)
+			if err := http.ListenAndServe(addr, mux); err != nil {
+				log.Printf("Health server error: %v", err)
+			}
+		}()
+
+		log.Println("Starting EINO Documentation MCP Server (stdio mode)...")
 		if err := server.Run(ctx); err != nil {
 			log.Printf("server error: %v", err)
 			os.Exit(1)
