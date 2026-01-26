@@ -15,6 +15,7 @@ kill_timeout = "20s"
   QDRANT_HOST = "localhost"
   QDRANT_PORT = "6334"
   LOG_LEVEL = "info"
+  SERVER_MODE = "true"
 
 # HTTP service configuration for health checks and routing
 [http_service]

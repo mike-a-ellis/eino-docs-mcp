@@ -77,10 +77,21 @@ func main() {
 		GitHub:   ghClient,
 	})
 
-	log.Println("Starting EINO Documentation MCP Server...")
-	if err := server.Run(ctx); err != nil {
-		log.Printf("server error: %v", err)
-		os.Exit(1)
+	// Check if running in server mode (health endpoint only) or stdio mode
+	serverMode := getEnv("SERVER_MODE", "false") == "true"
+
+	if serverMode {
+		// Server mode: keep process alive for health endpoint only
+		log.Println("Running in server mode (health endpoint only)")
+		<-ctx.Done()
+		log.Println("Shutting down...")
+	} else {
+		// Stdio mode: run MCP server over stdin/stdout
+		log.Println("Starting EINO Documentation MCP Server...")
+		if err := server.Run(ctx); err != nil {
+			log.Printf("server error: %v", err)
+			os.Exit(1)
+		}
 	}
 }
 
