@@ -26,17 +26,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Storage
 
-- [ ] **STOR-01**: Store embeddings in Qdrant vector database
-- [ ] **STOR-02**: Store full document content alongside vectors (for full-file retrieval)
-- [ ] **STOR-03**: Store document metadata (summary, entities, path, URL, indexed timestamp)
-- [ ] **STOR-04**: Data persists across server restarts (Fly.io persistent volume)
-- [ ] **STOR-05**: Track source GitHub commit SHA for indexed content
+- [x] **STOR-01**: Store embeddings in Qdrant vector database
+- [x] **STOR-02**: Store full document content alongside vectors (for full-file retrieval)
+- [x] **STOR-03**: Store document metadata (summary, entities, path, URL, indexed timestamp)
+- [x] **STOR-04**: Data persists across server restarts (Fly.io persistent volume)
+- [x] **STOR-05**: Track source GitHub commit SHA for indexed content
 
 ### Deployment
 
-- [ ] **DEPL-01**: Deploy to Fly.io with Dockerfile
-- [ ] **DEPL-02**: Configure persistent volume for Qdrant data
-- [ ] **DEPL-03**: Implement health check endpoint
+- [x] **DEPL-01**: Deploy to Fly.io with Dockerfile
+- [x] **DEPL-02**: Configure persistent volume for Qdrant data
+- [x] **DEPL-03**: Implement health check endpoint
 - [x] **DEPL-04**: Manual sync trigger (endpoint or CLI command to re-index)
 
 ## v2 Requirements
@@ -95,16 +95,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STOR-03 | Phase 1 | Complete |
 | STOR-04 | Phase 1 | Complete |
 | STOR-05 | Phase 1 | Complete |
-| DEPL-01 | Phase 5 | Pending |
-| DEPL-02 | Phase 5 | Pending |
-| DEPL-03 | Phase 5 | Pending |
+| DEPL-01 | Phase 5 | Complete |
+| DEPL-02 | Phase 5 | Complete |
+| DEPL-03 | Phase 5 | Complete |
 | DEPL-04 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 20 total
 - Mapped to phases: 20
+- Complete: 20
 - Unmapped: 0
 
 ---
 *Requirements defined: 2025-01-25*
-*Last updated: 2026-01-25 after roadmap creation*
+*Last updated: 2026-01-26 — All v1 requirements complete*

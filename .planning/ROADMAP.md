@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: MCP Server Core** - Implement MCP protocol with search and retrieval tools
 - [x] **Phase 4: Observability & Manual Sync** - Index status inspection and manual re-indexing
 - [x] **Phase 4.1: Environment Configuration** - ENV file support for local and production environments (INSERTED)
-- [ ] **Phase 5: Deployment** - Production deployment to Fly.io with persistent volumes
+- [x] **Phase 5: Deployment** - Production deployment to Fly.io with persistent volumes
 
 ## Phase Details
 
@@ -115,10 +115,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Multi-stage Dockerfile for Go MCP server
-- [ ] 05-02-PLAN.md — HTTP health check endpoint with Qdrant connectivity verification
-- [ ] 05-03-PLAN.md — fly.toml configuration with process groups and volumes
-- [ ] 05-04-PLAN.md — Deploy to Fly.io and verify production environment
+- [x] 05-01-PLAN.md — Multi-stage Dockerfile for Go MCP server
+- [x] 05-02-PLAN.md — HTTP health check endpoint with Qdrant connectivity verification
+- [x] 05-03-PLAN.md — fly.toml configuration with process groups and volumes
+- [x] 05-04-PLAN.md — Deploy to Fly.io and verify production environment
 
 ## Progress
 
@@ -132,8 +132,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 4.1 -> 5
 | 3. MCP Server Core | 3/3 | Complete | 2026-01-25 |
 | 4. Observability & Manual Sync | 2/2 | Complete | 2026-01-25 |
 | 4.1 Environment Configuration | 1/1 | Complete | 2026-01-25 |
-| 5. Deployment | 0/4 | Not started | - |
+| 5. Deployment | 4/4 | Complete | 2026-01-26 |
 
 ---
 *Roadmap created: 2026-01-25*
-*Last updated: 2026-01-25*
+*Last updated: 2026-01-26*
