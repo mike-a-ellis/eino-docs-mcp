@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -30,6 +31,7 @@ func main() {
 	// Configuration from environment
 	qdrantHost := getEnv("QDRANT_HOST", "localhost")
 	qdrantPort := getEnvInt("QDRANT_PORT", 6334)
+	port := getEnv("PORT", "8080")
 
 	// Initialize storage
 	store, err := storage.NewQdrantStorage(qdrantHost, qdrantPort)
@@ -56,7 +58,19 @@ func main() {
 		log.Fatalf("failed to create GitHub client: %v", err)
 	}
 
-	// Create and run server
+	// Start health check server in background
+	// QdrantStorage implements HealthChecker interface via its Health(ctx) method
+	healthHandler := mcpserver.NewHealthHandler(store)
+	http.HandleFunc("/health", healthHandler)
+	go func() {
+		addr := "0.0.0.0:" + port
+		log.Printf("Starting health server on %s", addr)
+		if err := http.ListenAndServe(addr, nil); err != nil {
+			log.Printf("Health server error: %v", err)
+		}
+	}()
+
+	// Create and run MCP server (stdio)
 	server := mcpserver.NewServer(&mcpserver.Config{
 		Storage:  store,
 		Embedder: embedder,
