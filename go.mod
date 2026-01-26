@@ -12,7 +12,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/modelcontextprotocol/go-sdk v1.2.0
 	github.com/openai/openai-go v1.12.0
-	github.com/qdrant/go-client v1.16.2
+	github.com/qdrant/go-client v1.12.0
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 	github.com/yuin/goldmark v1.7.16
