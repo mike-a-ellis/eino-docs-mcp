@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Document Processing** - Fetch, chunk, embed, and index EINO documentation
 - [x] **Phase 3: MCP Server Core** - Implement MCP protocol with search and retrieval tools
 - [x] **Phase 4: Observability & Manual Sync** - Index status inspection and manual re-indexing
-- [ ] **Phase 4.1: Environment Configuration** - ENV file support for local and production environments (INSERTED)
+- [x] **Phase 4.1: Environment Configuration** - ENV file support for local and production environments (INSERTED)
 - [ ] **Phase 5: Deployment** - Production deployment to Fly.io with persistent volumes
 
 ## Phase Details
@@ -101,7 +101,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 04.1-01-PLAN.md — Add godotenv, update binaries, create environment files and .gitignore
+- [x] 04.1-01-PLAN.md — Add godotenv, update binaries, create environment files and .gitignore
 
 ### Phase 5: Deployment
 **Goal**: Server runs reliably on Fly.io with persistent storage and health monitoring
@@ -128,7 +128,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 4.1 -> 5
 | 2. Document Processing | 5/5 | Complete | 2026-01-25 |
 | 3. MCP Server Core | 3/3 | Complete | 2026-01-25 |
 | 4. Observability & Manual Sync | 2/2 | Complete | 2026-01-25 |
-| 4.1 Environment Configuration | 0/1 | Not started | - |
+| 4.1 Environment Configuration | 1/1 | Complete | 2026-01-25 |
 | 5. Deployment | 0/TBD | Not started | - |
 
 ---
