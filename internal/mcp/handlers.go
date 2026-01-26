@@ -77,11 +77,15 @@ func makeSearchHandler(store *storage.QdrantStorage, embedder *embedding.Embedde
 			if err != nil {
 				continue // Skip documents that fail to load
 			}
+			entities := doc.Metadata.Entities
+			if entities == nil {
+				entities = []string{} // Ensure non-nil for JSON marshaling
+			}
 			results = append(results, SearchResult{
 				Path:      doc.Metadata.Path,
 				Score:     docScores[docID],
 				Summary:   doc.Metadata.Summary,
-				Entities:  doc.Metadata.Entities,
+				Entities:  entities,
 				UpdatedAt: doc.Metadata.IndexedAt,
 			})
 		}

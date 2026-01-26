@@ -476,7 +476,7 @@ func (s *QdrantStorage) GetCommitSHA(ctx context.Context, repository string) (st
 // ListDocumentPaths returns all unique document paths in the index.
 // Uses Scroll API to iterate through all parent documents.
 func (s *QdrantStorage) ListDocumentPaths(ctx context.Context, repository string) ([]string, error) {
-	var paths []string
+	paths := []string{} // Initialize as empty slice, not nil (nil marshals to JSON null)
 	var offset *qdrant.PointId
 
 	// Build filter for parent documents
