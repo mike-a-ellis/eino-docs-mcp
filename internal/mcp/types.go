@@ -10,8 +10,8 @@ type SearchDocsInput struct {
 	Query string `json:"query" jsonschema:"The semantic search query for finding relevant documentation"`
 	// MaxResults is the maximum number of documents to return (1-20, default 5).
 	MaxResults int `json:"max_results,omitempty" jsonschema:"Maximum number of documents to return (1-20, default 5)"`
-	// MinScore is the minimum relevance threshold (0-1, default 0.5).
-	MinScore float64 `json:"min_score,omitempty" jsonschema:"Minimum relevance score threshold (0-1, default 0.5)"`
+	// MinScore is the minimum relevance threshold (0-1, default 0.4).
+	MinScore float64 `json:"min_score,omitempty" jsonschema:"Minimum relevance score threshold (0-1, default 0.4)"`
 }
 
 // SearchDocsOutput contains the search results.
