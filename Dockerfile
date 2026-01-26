@@ -21,7 +21,7 @@ FROM debian:12-slim
 # Install Qdrant and netcat (for supervisor health check)
 RUN apt-get update && \
     apt-get install -y wget ca-certificates netcat-openbsd && \
-    wget -qO /tmp/qdrant.tar.gz https://github.com/qdrant/qdrant/releases/download/v1.7.4/qdrant-x86_64-unknown-linux-gnu.tar.gz && \
+    wget -qO /tmp/qdrant.tar.gz https://github.com/qdrant/qdrant/releases/download/v1.13.6/qdrant-x86_64-unknown-linux-gnu.tar.gz && \
     tar -xzf /tmp/qdrant.tar.gz -C /usr/local/bin && \
     rm /tmp/qdrant.tar.gz && \
     apt-get remove -y wget && \
