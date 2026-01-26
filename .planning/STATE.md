@@ -5,22 +5,22 @@
 See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Core value:** AI agents can retrieve relevant EINO documentation on demand — no manual doc hunting or copy-pasting required.
-**Current focus:** Phase 5 - Deployment
+**Current focus:** Phase 4.1 - Environment Configuration
 
 ## Current Position
 
-Phase: 5 of 5 (Deployment)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-01-25 — Completed Phase 4 (Observability & Manual Sync)
+Phase: 4.1 of 5 (Environment Configuration)
+Plan: 1 of 1 in current phase
+Status: Phase complete
+Last activity: 2026-01-25 — Completed 04.1-01-PLAN.md
 
-Progress: [████████░░] 80%
+Progress: [█████████░] 90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: 4.9 min
+- Total plans completed: 14
+- Average duration: 4.7 min
 - Total execution time: 1.1 hours
 
 **By Phase:**
@@ -31,10 +31,11 @@ Progress: [████████░░] 80%
 | 02-document-processing | 5 | 20.2min | 4.0min |
 | 03-mcp-server-core | 3 | 17.6min | 5.9min |
 | 04-observability-manual-sync | 2 | 7.5min | 3.8min |
+| 04.1-env-file-configuration | 1 | 2min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (5.6min), 03-02 (8min), 03-03 (4min), 04-01 (3min), 04-02 (4.5min)
-- Trend: Consistent fast execution. Phase 4 progressing well with CLI tooling.
+- Last 5 plans: 03-02 (8min), 03-03 (4min), 04-01 (3min), 04-02 (4.5min), 04.1-01 (2min)
+- Trend: Fast execution continues. Environment configuration completed quickly.
 
 *Updated after each plan completion*
 
@@ -86,10 +87,17 @@ Recent decisions affecting current work:
 - Use Cobra for CLI framework (standard in Go ecosystem) — Plan 04-02
 - Reuse OpenAI client from embeddings for metadata generation (no duplicate clients) — Plan 04-02
 - Clear collection before indexing (full refresh model, not incremental) — Plan 04-02
+- Graceful .env fallback - missing file logs warning, doesn't fail — Plan 04.1-01
+- sync CLI silent fallback - no log noise for production — Plan 04.1-01
+- prod.env is documentation only - fly secrets for actual values — Plan 04.1-01
 
 ### Pending Todos
 
 None yet.
+
+### Roadmap Evolution
+
+- Phase 4.1 inserted after Phase 4: Environment Configuration - .env file support for local.env and prod.env (URGENT)
 
 ### Blockers/Concerns
 
@@ -104,7 +112,7 @@ None blocking current work. All flagged for consideration during planning.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed Phase 4 (Observability & Manual Sync) - all 2 plans executed, goal verified
+Stopped at: Completed Phase 4.1 (Environment Configuration) - plan 04.1-01 executed
 Resume file: None
 
 ---
