@@ -10,17 +10,17 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 5 of 5 (Deployment)
-Plan: 1 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-26 — Completed 05-01-PLAN.md
+Last activity: 2026-01-26 — Completed 05-03-PLAN.md
 
-Progress: [█████████░] 88%
+Progress: [█████████░] 94%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 16
-- Average duration: 4.7 min
+- Total plans completed: 17
+- Average duration: 4.4 min
 - Total execution time: 1.3 hours
 
 **By Phase:**
@@ -32,11 +32,11 @@ Progress: [█████████░] 88%
 | 03-mcp-server-core | 3 | 17.6min | 5.9min |
 | 04-observability-manual-sync | 2 | 7.5min | 3.8min |
 | 04.1-env-file-configuration | 1 | 2min | 2min |
-| 05-deployment | 2 | 10.6min | 5.3min |
+| 05-deployment | 3 | 12.6min | 4.2min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (3min), 04-02 (4.5min), 04.1-01 (2min), 05-02 (4.6min), 05-01 (6min)
-- Trend: Deployment phase progressing. Docker containerization completed with multi-stage build.
+- Last 5 plans: 04-02 (4.5min), 04.1-01 (2min), 05-02 (4.6min), 05-01 (6min), 05-03 (2min)
+- Trend: Deployment phase accelerating. Fly.io configuration completed with process groups and persistent volumes.
 
 *Updated after each plan completion*
 
@@ -99,6 +99,10 @@ Recent decisions affecting current work:
 - CGO_ENABLED=0 for static binary with no external dependencies — Plan 05-01
 - Strip debug symbols with -ldflags="-w -s" for smaller binary size — Plan 05-01
 - Run as non-root user (nonroot:nonroot) for security — Plan 05-01
+- Qdrant binary path is /qdrant/qdrant (not /usr/bin/qdrant) verified via Docker inspection — Plan 05-03
+- Process-specific volume mounts using processes array in [[mounts]] — Plan 05-03
+- MCP server 256MB / Qdrant 512MB resource allocation for Fly.io — Plan 05-03
+- Health check timings: 10s grace + 15s interval + 5s timeout — Plan 05-03
 
 ### Pending Todos
 
@@ -121,7 +125,7 @@ None blocking current work. All flagged for consideration during planning.
 ## Session Continuity
 
 Last session: 2026-01-26
-Stopped at: Completed 05-01-PLAN.md (Docker Containerization)
+Stopped at: Completed 05-03-PLAN.md (Fly.io Configuration)
 Resume file: None
 
 ---
