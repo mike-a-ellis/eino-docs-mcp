@@ -14,8 +14,8 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
     go build -ldflags="-w -s" -o mcp-server ./cmd/mcp-server
 
-# Runtime stage - use Debian base for Qdrant binary
-FROM debian:11-slim
+# Runtime stage - use Debian 12 for Qdrant binary (requires GLIBC 2.34)
+FROM debian:12-slim
 
 # Install Qdrant
 RUN apt-get update && \
