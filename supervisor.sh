@@ -3,6 +3,9 @@
 
 set -e
 
+# Trap SIGTERM and SIGINT to gracefully shutdown
+trap 'echo "Shutting down..."; kill $QDRANT_PID; exit 0' TERM INT
+
 # Start Qdrant in the background
 echo "Starting Qdrant server..."
 /qdrant/qdrant &
@@ -19,6 +22,13 @@ for i in $(seq 1 30); do
   sleep 1
 done
 
-# Start MCP server in foreground
-echo "Starting MCP server..."
-exec /app/mcp-server
+# Start MCP server (health endpoint only - stdio server will exit immediately)
+echo "Starting MCP server health endpoint..."
+/app/mcp-server &
+
+# Give it a moment to start the health endpoint
+sleep 2
+
+# Keep container alive - wait for Qdrant process
+echo "Services running, waiting..."
+wait $QDRANT_PID
