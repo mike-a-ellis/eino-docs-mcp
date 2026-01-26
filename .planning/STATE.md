@@ -5,22 +5,22 @@
 See: .planning/PROJECT.md (updated 2026-01-25)
 
 **Core value:** AI agents can retrieve relevant EINO documentation on demand — no manual doc hunting or copy-pasting required.
-**Current focus:** Phase 5 - Deployment
+**Current focus:** Phase 6 - HTTP Transport
 
 ## Current Position
 
-Phase: 5 of 5 (Deployment)
-Plan: 4 of 4 in current phase
-Status: Phase complete - All phases complete
-Last activity: 2026-01-26 — Completed 05-04-PLAN.md
+Phase: 6 of 6 (HTTP Transport)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-26 — Completed 06-01-PLAN.md
 
-Progress: [██████████] 100%
+Progress: [█████████▓] 95%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 18
-- Average duration: 4.6 min
+- Total plans completed: 19
+- Average duration: 4.4 min
 - Total execution time: 1.5 hours
 
 **By Phase:**
@@ -33,10 +33,11 @@ Progress: [██████████] 100%
 | 04-observability-manual-sync | 2 | 7.5min | 3.8min |
 | 04.1-env-file-configuration | 1 | 2min | 2min |
 | 05-deployment | 4 | 23.6min | 5.9min |
+| 06-http-transport | 1 | 1min | 1min |
 
 **Recent Trend:**
-- Last 5 plans: 04.1-01 (2min), 05-02 (4.6min), 05-01 (6min), 05-03 (2min), 05-04 (11min)
-- Trend: All phases complete. Production deployment successful at eino-docs-mcp.fly.dev.
+- Last 5 plans: 05-02 (4.6min), 05-01 (6min), 05-03 (2min), 05-04 (11min), 06-01 (1min)
+- Trend: HTTP transport foundation added. Fast execution for transport handler factory.
 
 *Updated after each plan completion*
 
@@ -106,6 +107,10 @@ Recent decisions affecting current work:
 - Supervisor script for single-machine deployment (process groups require multiple machines) — Plan 05-04
 - Debian 12 base image required for Qdrant GLIBC 2.34+ compatibility — Plan 05-04
 - SERVER_MODE environment variable keeps MCP server alive for health endpoint — Plan 05-04
+- Use stateful mode by default for HTTP transport (needed for future server-to-client requests) — Plan 06-01
+- Expose HTTPHandlerOptions for transport configuration flexibility — Plan 06-01
+- Return http.Handler interface for flexible mounting on any ServeMux path — Plan 06-01
+- Server factory function returns same server instance (safe for concurrent requests) — Plan 06-01
 
 ### Pending Todos
 
@@ -114,6 +119,7 @@ None yet.
 ### Roadmap Evolution
 
 - Phase 4.1 inserted after Phase 4: Environment Configuration - .env file support for local.env and prod.env (URGENT)
+- Phase 6 added: HTTP Transport - Serve MCP over HTTP for remote client connections
 
 ### Blockers/Concerns
 
@@ -127,21 +133,22 @@ None blocking current work. All flagged for consideration during planning.
 
 ## Session Continuity
 
-Last session: 2026-01-26
-Stopped at: Completed 05-04-PLAN.md (Production Deployment) - ALL PHASES COMPLETE
+Last session: 2026-01-26 21:16:31
+Stopped at: Completed 06-01-PLAN.md
 Resume file: None
+Next action: Execute 06-02-PLAN.md
 
 ## Project Status
 
-**DEPLOYMENT COMPLETE**
+**NEXT PHASE: HTTP TRANSPORT**
 
-The EINO Documentation MCP Server is now live in production:
+The EINO Documentation MCP Server is deployed but currently only accessible via stdio:
 - URL: https://eino-docs-mcp.fly.dev
 - Health: https://eino-docs-mcp.fly.dev/health
 - Status: Running (MCP server + Qdrant on Fly.io)
 - Storage: 1GB persistent volume for Qdrant data
 
-All 5 phases completed successfully. System ready for use.
+Phase 6 will add HTTP transport to enable remote MCP client connections.
 
 ---
 *State initialized: 2026-01-25*
