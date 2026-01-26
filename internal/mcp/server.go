@@ -66,3 +66,9 @@ func NewServer(cfg *Config) *Server {
 func (s *Server) Run(ctx context.Context) error {
 	return s.server.Run(ctx, &mcp.StdioTransport{})
 }
+
+// MCPServer returns the underlying MCP server instance.
+// Used by transport handlers that need to wrap the server.
+func (s *Server) MCPServer() *mcp.Server {
+	return s.server
+}
