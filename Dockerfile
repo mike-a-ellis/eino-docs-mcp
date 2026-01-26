@@ -17,9 +17,9 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
 # Runtime stage - use Debian 12 for Qdrant binary (requires GLIBC 2.34)
 FROM debian:12-slim
 
-# Install Qdrant
+# Install Qdrant and netcat (for supervisor health check)
 RUN apt-get update && \
-    apt-get install -y wget ca-certificates && \
+    apt-get install -y wget ca-certificates netcat-openbsd && \
     wget -qO /tmp/qdrant.tar.gz https://github.com/qdrant/qdrant/releases/download/v1.7.4/qdrant-x86_64-unknown-linux-gnu.tar.gz && \
     tar -xzf /tmp/qdrant.tar.gz -C /usr/local/bin && \
     rm /tmp/qdrant.tar.gz && \
@@ -37,13 +37,12 @@ RUN mkdir -p /qdrant && ln -s /usr/local/bin/qdrant /qdrant/qdrant
 # Create storage directory with proper permissions
 RUN mkdir -p /qdrant/storage && chmod 755 /qdrant/storage
 
-# Copy entrypoint script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Copy supervisor script to run both processes
+COPY supervisor.sh /supervisor.sh
+RUN chmod +x /supervisor.sh
 
 # Expose ports (documentation only, Fly.io uses internal_port)
 EXPOSE 8080 6334
 
-# Use entrypoint script to handle different process types
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/app/mcp-server"]
+# Use supervisor script to run both Qdrant and MCP server
+ENTRYPOINT ["/supervisor.sh"]
