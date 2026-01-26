@@ -112,10 +112,13 @@ Plans:
   2. Qdrant data persists across deployments and server restarts via Fly.io volume
   3. Health check endpoint returns server status and catches deployment failures
   4. Server is accessible to MCP clients for production use
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 05-01-PLAN.md — Multi-stage Dockerfile for Go MCP server
+- [ ] 05-02-PLAN.md — HTTP health check endpoint with Qdrant connectivity verification
+- [ ] 05-03-PLAN.md — fly.toml configuration with process groups and volumes
+- [ ] 05-04-PLAN.md — Deploy to Fly.io and verify production environment
 
 ## Progress
 
@@ -129,7 +132,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 4.1 -> 5
 | 3. MCP Server Core | 3/3 | Complete | 2026-01-25 |
 | 4. Observability & Manual Sync | 2/2 | Complete | 2026-01-25 |
 | 4.1 Environment Configuration | 1/1 | Complete | 2026-01-25 |
-| 5. Deployment | 0/TBD | Not started | - |
+| 5. Deployment | 0/4 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-25*
