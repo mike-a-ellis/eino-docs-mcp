@@ -18,6 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Observability & Manual Sync** - Index status inspection and manual re-indexing
 - [x] **Phase 4.1: Environment Configuration** - ENV file support for local and production environments (INSERTED)
 - [x] **Phase 5: Deployment** - Production deployment to Fly.io with persistent volumes
+- [ ] **Phase 6: HTTP Transport** - Serve MCP over HTTP for remote client connections
 
 ## Phase Details
 
@@ -120,10 +121,26 @@ Plans:
 - [x] 05-03-PLAN.md — fly.toml configuration with process groups and volumes
 - [x] 05-04-PLAN.md — Deploy to Fly.io and verify production environment
 
+### Phase 6: HTTP Transport
+**Goal**: MCP server accessible over HTTP for remote client connections
+**Depends on**: Phase 5
+**Requirements**: None (new capability)
+**Success Criteria** (what must be TRUE):
+  1. MCP server serves protocol over HTTP transport (not just stdio)
+  2. Remote MCP clients can connect to the Fly.io deployment via HTTP
+  3. Existing stdio transport continues to work for local development
+  4. HTTP endpoint properly handles MCP JSON-RPC messages
+  5. Server deployed and accessible at production URL
+**Plans**: 2 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — HTTP transport handler factory using StreamableHTTPHandler
+- [ ] 06-02-PLAN.md — Main.go integration, deployment, and production verification
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 4.1 -> 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 4.1 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -133,7 +150,9 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 4.1 -> 5
 | 4. Observability & Manual Sync | 2/2 | Complete | 2026-01-25 |
 | 4.1 Environment Configuration | 1/1 | Complete | 2026-01-25 |
 | 5. Deployment | 4/4 | Complete | 2026-01-26 |
+| 6. HTTP Transport | 0/2 | In Progress | - |
 
 ---
 *Roadmap created: 2026-01-25*
 *Last updated: 2026-01-26*
+*Phase 6 added: 2026-01-26*
