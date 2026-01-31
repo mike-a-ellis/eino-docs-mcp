@@ -1,4 +1,4 @@
-// Package main provides the sync CLI for EINO documentation indexing.
+// Package main provides the sync CLI for Eino User Manual documentation indexing.
 package main
 
 import (
@@ -21,8 +21,8 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "eino-sync",
-	Short: "EINO documentation indexing tool",
-	Long:  "CLI tool for managing EINO documentation index in Qdrant",
+	Short: "Eino User Manual documentation indexing tool",
+	Long:  "CLI tool for managing Eino User Manual documentation index in Qdrant",
 }
 
 var syncCmd = &cobra.Command{
@@ -33,7 +33,7 @@ var syncCmd = &cobra.Command{
 This command:
 1. Connects to Qdrant and verifies health
 2. Clears the existing document collection
-3. Fetches all EINO documentation from GitHub
+3. Fetches all Eino User Manual documentation from GitHub
 4. Generates embeddings and metadata for each document
 5. Stores documents and chunks in Qdrant
 

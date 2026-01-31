@@ -1,4 +1,4 @@
-# EINO Documentation MCP Server - Fly.io Configuration
+# Eino User Manual Documentation MCP Server - Fly.io Configuration
 app = "eino-docs-mcp"
 primary_region = "iad"
 

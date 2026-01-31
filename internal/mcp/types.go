@@ -1,4 +1,4 @@
-// Package mcp provides MCP server implementation for EINO documentation.
+// Package mcp provides MCP server implementation for Eino User Manual documentation.
 package mcp
 
 import "time"

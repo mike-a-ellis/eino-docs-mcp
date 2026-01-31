@@ -27,7 +27,7 @@ type Config struct {
 // NewServer creates a configured MCP server with tools registered.
 func NewServer(cfg *Config) *Server {
 	impl := &mcp.Implementation{
-		Name:    "eino-documentation-server",
+		Name:    "eino-user-manual-server",
 		Version: "v0.1.0",
 	}
 
@@ -36,22 +36,22 @@ func NewServer(cfg *Config) *Server {
 	// Register tools with real handlers
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "search_docs",
-		Description: "Search EINO documentation semantically. Returns metadata for matching documents. Use fetch_doc to get full content.",
+		Description: "Search Eino User Manual documentation semantically. Returns metadata for matching documents. Use fetch_doc to get full content.",
 	}, makeSearchHandler(cfg.Storage, cfg.Embedder))
 
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "fetch_doc",
-		Description: "Retrieve a specific EINO document by path. Returns full markdown content.",
+		Description: "Retrieve a specific Eino User Manual document by path. Returns full markdown content.",
 	}, makeFetchHandler(cfg.Storage))
 
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "list_docs",
-		Description: "List all available EINO documentation paths.",
+		Description: "List all available Eino User Manual documentation paths.",
 	}, makeListHandler(cfg.Storage))
 
 	mcp.AddTool(server, &mcp.Tool{
 		Name:        "get_index_status",
-		Description: "Get the current status of the EINO documentation index including document counts, last sync time, and staleness indicator.",
+		Description: "Get the current status of the Eino User Manual documentation index including document counts, last sync time, and staleness indicator.",
 	}, makeStatusHandler(cfg.Storage, cfg.GitHub))
 
 	return &Server{

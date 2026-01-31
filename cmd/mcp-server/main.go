@@ -1,4 +1,4 @@
-// Package main provides the MCP server entry point for EINO documentation.
+// Package main provides the MCP server entry point for Eino User Manual documentation.
 package main
 
 import (
@@ -97,7 +97,7 @@ func main() {
 			}
 		}()
 
-		log.Println("Starting EINO Documentation MCP Server (stdio mode)...")
+		log.Println("Starting Eino User Manual Documentation MCP Server (stdio mode)...")
 		if err := server.Run(ctx); err != nil {
 			log.Printf("server error: %v", err)
 			os.Exit(1)

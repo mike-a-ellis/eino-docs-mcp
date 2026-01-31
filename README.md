@@ -1,10 +1,10 @@
-# EINO Documentation MCP Server
+# Eino User Manual Documentation MCP Server
 
 ![Go Version](https://img.shields.io/badge/Go-1.24-blue)
 
 A Model Context Protocol (MCP) server that provides semantic search over [EINO framework](https://github.com/cloudwego/eino) documentation for AI agents. Enables Claude Code and other MCP clients to retrieve relevant documentation without manual copy-paste.
 
-**Deployed version:** https://eino-docs-mcp.fly.dev
+**Deployed version:** https://eino-docs-mcp.fly.dev/health
 
 ## Why This Exists
 
@@ -201,7 +201,7 @@ Once configured, Claude Code gains access to:
 
 - **search_docs**: "Search EINO for how to create a ChatModel"
 - **fetch_doc**: "Get the full content of getting-started/quickstart.md"
-- **list_docs**: "What EINO documentation is available?"
+- **list_docs**: "What Eino User Manual documentation is available?"
 - **get_index_status**: "Is the EINO docs index up to date?"
 
 ## Deployment to Fly.io
@@ -273,7 +273,7 @@ The Dockerfile runs both Qdrant and the MCP server in a single container:
 
 ### search_docs
 
-Semantic search across EINO documentation. Returns metadata for matching documents (not full content).
+Semantic search across Eino User Manual documentation. Returns metadata for matching documents (not full content).
 
 **Input:**
 
@@ -500,4 +500,4 @@ MIT License
 
 ---
 
-Built for AI agents that need EINO documentation access.
+Built for AI agents that need Eino User Manual documentation access.
