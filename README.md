@@ -6,6 +6,14 @@ A Model Context Protocol (MCP) server that provides semantic search over [EINO f
 
 **Deployed version:** https://eino-docs-mcp.fly.dev/health
 
+## Add to Claude Code
+
+```bash
+claude mcp add --transport http eino-user-manual https://eino-docs-mcp.fly.dev/mcp
+```
+
+That's it. Claude Code now has access to Eino documentation via semantic search.
+
 ## Why This Exists
 
 AI agents working with EINO need access to framework documentation. Instead of manually copying docs or relying on outdated training data, this server:
