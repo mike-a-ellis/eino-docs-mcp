@@ -68,6 +68,9 @@ func main() {
 	// Create HTTP server with multiple endpoints
 	mux := http.NewServeMux()
 
+	// Landing page at /
+	mux.HandleFunc("/", mcpserver.NewLandingHandler())
+
 	// Health endpoint (for Fly.io health checks)
 	healthHandler := mcpserver.NewHealthHandler(store)
 	mux.HandleFunc("/health", healthHandler)
