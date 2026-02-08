@@ -15,19 +15,20 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
     go build -ldflags="-w -s" -o mcp-server ./cmd/mcp-server && \
     go build -ldflags="-w -s" -o eino-sync ./cmd/sync
 
+# Pull Qdrant binary from official Docker image (avoids GitHub releases download)
+FROM qdrant/qdrant:v1.12.6 AS qdrant
+
 # Runtime stage - use Debian 12 for Qdrant binary (requires GLIBC 2.34)
 FROM debian:12-slim
 
-# Install Qdrant and netcat (for supervisor health check)
+# Install runtime dependencies
 RUN apt-get update && \
-    apt-get install -y wget ca-certificates netcat-openbsd && \
-    wget -qO /tmp/qdrant.tar.gz https://github.com/qdrant/qdrant/releases/download/v1.12.6/qdrant-x86_64-unknown-linux-gnu.tar.gz && \
-    tar -xzf /tmp/qdrant.tar.gz -C /usr/local/bin && \
-    rm /tmp/qdrant.tar.gz && \
-    apt-get remove -y wget && \
-    apt-get autoremove -y && \
+    apt-get install -y --no-install-recommends ca-certificates netcat-openbsd libunwind8 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Copy Qdrant binary from official image
+COPY --from=qdrant /qdrant/qdrant /usr/local/bin/qdrant
 
 # Copy binaries from build stage
 COPY --from=builder /build/mcp-server /app/mcp-server
