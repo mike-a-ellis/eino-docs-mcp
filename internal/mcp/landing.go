@@ -32,7 +32,7 @@ const landingHTML = `<!DOCTYPE html>
 
   <div class="section">
     <div class="section-title">Add to Claude Code</div>
-    <pre><code>claude mcp add eino-docs --transport streamable-http https://eino-docs-mcp.fly.dev/mcp</code></pre>
+    <pre><code>claude mcp add --transport http eino-user-manual https://eino-docs-mcp.fly.dev/mcp</code></pre>
   </div>
 
   <div class="section">
