@@ -4,7 +4,7 @@
 
 A Model Context Protocol (MCP) server that provides semantic search over [EINO framework](https://github.com/cloudwego/eino) documentation for AI agents. Enables Claude Code and other MCP clients to retrieve relevant documentation without manual copy-paste.
 
-**Deployed version:** https://eino-docs-mcp.fly.dev/health
+**Deployed version:** https://eino-docs-mcp.fly.dev/
 
 ## Add to Claude Code
 

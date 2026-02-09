@@ -45,7 +45,7 @@ const landingHTML = `<!DOCTYPE html>
     <div class="section-title">Links</div>
     <div class="links">
       <a href="https://github.com/mike-a-ellis/eino-docs-mcp">GitHub</a>
-      <a href="https://www.linkedin.com/in/mike-a-ellis/">Mike Ellis on LinkedIn</a>
+      <a href="https://www.linkedin.com/in/mike-a-ellis/">Michael Ellis on LinkedIn</a>
     </div>
   </div>
 </div>
