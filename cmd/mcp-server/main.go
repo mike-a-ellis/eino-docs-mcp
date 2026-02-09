@@ -12,10 +12,10 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/bull/eino-mcp-server/internal/embedding"
-	ghclient "github.com/bull/eino-mcp-server/internal/github"
-	mcpserver "github.com/bull/eino-mcp-server/internal/mcp"
-	"github.com/bull/eino-mcp-server/internal/storage"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/embedding"
+	ghclient "github.com/mike-a-ellis/eino-docs-mcp/internal/github"
+	mcpserver "github.com/mike-a-ellis/eino-docs-mcp/internal/mcp"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/storage"
 )
 
 func main() {

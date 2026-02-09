@@ -11,12 +11,12 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 
-	"github.com/bull/eino-mcp-server/internal/embedding"
-	ghclient "github.com/bull/eino-mcp-server/internal/github"
-	"github.com/bull/eino-mcp-server/internal/indexer"
-	"github.com/bull/eino-mcp-server/internal/markdown"
-	"github.com/bull/eino-mcp-server/internal/metadata"
-	"github.com/bull/eino-mcp-server/internal/storage"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/embedding"
+	ghclient "github.com/mike-a-ellis/eino-docs-mcp/internal/github"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/indexer"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/markdown"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/metadata"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/storage"
 )
 
 var rootCmd = &cobra.Command{

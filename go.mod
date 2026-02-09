@@ -1,4 +1,4 @@
-module github.com/bull/eino-mcp-server
+module github.com/mike-a-ellis/eino-docs-mcp
 
 go 1.24.0
 

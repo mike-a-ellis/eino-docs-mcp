@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Go-based MCP (Model Context Protocol) server providing semantic search over EINO framework documentation. It fetches docs from GitHub, chunks and embeds them into a Qdrant vector database, and exposes search/retrieval tools via MCP for use by Claude Code and other AI agents.
 
-**Module:** `github.com/bull/eino-mcp-server`
+**Module:** `github.com/mike-a-ellis/eino-docs-mcp`
 **Go version:** 1.24
 **Deployed at:** https://eino-docs-mcp.fly.dev/mcp
 

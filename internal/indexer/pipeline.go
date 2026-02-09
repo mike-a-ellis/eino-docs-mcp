@@ -8,11 +8,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/bull/eino-mcp-server/internal/embedding"
-	"github.com/bull/eino-mcp-server/internal/github"
-	"github.com/bull/eino-mcp-server/internal/markdown"
-	"github.com/bull/eino-mcp-server/internal/metadata"
-	"github.com/bull/eino-mcp-server/internal/storage"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/embedding"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/github"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/markdown"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/metadata"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/storage"
 )
 
 // IndexResult contains statistics about an indexing operation.

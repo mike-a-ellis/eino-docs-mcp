@@ -11,11 +11,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/bull/eino-mcp-server/internal/embedding"
-	"github.com/bull/eino-mcp-server/internal/github"
-	"github.com/bull/eino-mcp-server/internal/markdown"
-	"github.com/bull/eino-mcp-server/internal/metadata"
-	"github.com/bull/eino-mcp-server/internal/storage"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/embedding"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/github"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/markdown"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/metadata"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/storage"
 )
 
 func TestPipeline_IndexAll_Integration(t *testing.T) {

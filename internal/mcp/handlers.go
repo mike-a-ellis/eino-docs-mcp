@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/bull/eino-mcp-server/internal/embedding"
-	ghclient "github.com/bull/eino-mcp-server/internal/github"
-	"github.com/bull/eino-mcp-server/internal/storage"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/embedding"
+	ghclient "github.com/mike-a-ellis/eino-docs-mcp/internal/github"
+	"github.com/mike-a-ellis/eino-docs-mcp/internal/storage"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
