@@ -76,7 +76,7 @@ GitHub (cloudwego/cloudwego.github.io)
 
 1. Embed query via OpenAI
 2. Search chunks in Qdrant (request 3x `max_results` for dedup headroom)
-3. Filter by `min_score` (default 0.4)
+3. Filter by `min_score` (default 0.3)
 4. Deduplicate by parent document (keep highest score per doc)
 5. Fetch parent document metadata
 6. Return up to `max_results` (default 5, max 20)

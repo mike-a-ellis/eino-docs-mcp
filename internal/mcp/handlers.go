@@ -34,7 +34,7 @@ func makeSearchHandler(store *storage.QdrantStorage, embedder *embedding.Embedde
 		}
 		minScore := input.MinScore
 		if minScore <= 0 {
-			minScore = 0.4
+			minScore = 0.3
 		}
 
 		// Generate embedding for query
