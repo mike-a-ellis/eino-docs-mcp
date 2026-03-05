@@ -6,6 +6,8 @@ A Model Context Protocol (MCP) server that provides semantic search over [EINO f
 
 **Deployed version:** https://eino-docs-mcp.fly.dev/
 
+**LinkedIn:** https://www.linkedin.com/in/mike-a-ellis/
+
 ## Add to Claude Code
 
 ```bash
